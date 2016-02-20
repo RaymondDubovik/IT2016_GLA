@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>{% block title %}Pitchify{% endblock %}</title>
+    </head>
+
+    <body>
+        <div>
+            {% block body_block %}{% endblock %}
+        </div>
+
+        <hr />
+
+        <div>
+            <ul>
+            {% if user.is_authenticated %}
+                <h2>you are registered as {{ type }}</h2>
+                <li><a href="/Pitchify/logout/">Logout</a></li>
+            {% else %}
+                <li><a href="/Pitchify/register/">Register Here</a></li>
+                <li><a href="/Pitchify/login/">Login</a></li>
+            {% endif %}
+            </ul>
+        </div>
+    </body>
+</html>

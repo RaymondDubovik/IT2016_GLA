@@ -1,0 +1,15 @@
+{% extends 'Pitchify/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Rango{% endblock %}
+
+{% block body_block %}
+
+{% if user.is_authenticated %}
+            <h1>Pitchify says... hello {{ user.username }}!</h1>
+        {% else %}
+            <h1>Pitchify says... hello world!</h1>
+        {% endif %}
+
+{% endblock %}
