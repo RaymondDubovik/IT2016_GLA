@@ -28,7 +28,7 @@ class Investor(models.Model):
 
 
 class Pitch(models.Model): # foreign company
-    company_id = models.ForeignKey(Company)
+    company = models.ForeignKey(Company)
     title = models.CharField(max_length=100)
     description = models.TextField()
     youtube_video_id = models.CharField(max_length=11)
@@ -36,6 +36,10 @@ class Pitch(models.Model): # foreign company
     created = models.DateTimeField()
     total_stocks = models.IntegerField()
     price_per_stock = models.IntegerField()
+
+    def __unicode__(self):
+        return self.title
+
 
 class Offer(models.Model):
     PENDING = 'P'
@@ -48,8 +52,8 @@ class Offer(models.Model):
         (DECLINED, 'Declined'),
     ]
 
-    pitch_id = models.ForeignKey(Pitch)
-    investor_id = models.ForeignKey(Investor)
+    pitch = models.ForeignKey(Pitch)
+    investor = models.ForeignKey(Investor)
     status = models.CharField(max_length=1) # TODO: implement choices
     message = models.TextField()
     answer = models.TextField()
@@ -57,4 +61,5 @@ class Offer(models.Model):
     price = models.IntegerField()
     seen = models.BooleanField(default=False)
 
-
+    def __unicode__(self):
+        return "Offer: from '" + self.investor.user.username + "' for '" + self.pitch.title + "'"
