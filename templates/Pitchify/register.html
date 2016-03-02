@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Rango</title>
+        <title>Pitchify</title>
     </head>
 
     <body>
-        <h1>Register with Rango</h1>
+        <h1>Register with Pitchify</h1>
 
         {% if registered %}
         Pitchify says: <strong>thank you for registering!</strong>
         <a href="/Pitchify/login">Click to log in.</a><br />
         {% else %}
-        Rango says: <strong>register here!</strong><br />
+        Pitchify says: <strong>register here!</strong><br />
 
         <form id="user_form" method="post" action="/Pitchify/register/"
                 enctype="multipart/form-data">
