@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from Pitchify.models import Company, Investor
+from Pitchify.populate import Population
 
 
 def index(request):
@@ -119,6 +120,16 @@ def index(request):
 
 
     # return render(request, 'Pitchify/index.html', context)
+
+
+def populate(request):
+    context = {}
+
+    # print('populate')
+    population = Population()
+    population.populate()
+
+    return render(request, 'Pitchify/populate.html', context)
 
 
 def register(request):
