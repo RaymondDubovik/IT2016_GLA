@@ -1,6 +1,6 @@
 from pprint import pprint
 
-from Pitchify.models import Company
+from Pitchify.models import Company, Investor
 from django.contrib.auth.models import User
 
 
@@ -8,19 +8,26 @@ class Population():
     def __init__(self):
         pass
 
-    def populate(self):
+    def populate(self, truncate=False):
+        if (truncate):
+            self.truncate()
+
+        companies = self.add_companies()
+        investors = self.add_investors()
+
+        # todo: stuff;
         return {
-            'companies': self.add_companies(),
-            'investors': self.add_investors(),
+            'companies': companies,
+            'investors': investors,
         }
 
     def add_companies(self):
-        list = []
-        list.append(self.add_company("testUser1", "some company description"))
-        return list
+        return [self.add_company("companyUser1", "some company description1"),
+                self.add_company("companyUser2", "some company description2")]
 
     def add_investors(self):
-        print ('adding investors')
+        return [self.add_investor("investorUser1"),
+                self.add_investor("investorUser2")]
 
     def add_company(self, username, description):
         user, created = User.objects.get_or_create(username=username)
@@ -34,36 +41,15 @@ class Population():
         company.save()
         return company
 
-    def add_investor(self):
-        print ('adding investor')
+    def add_investor(self, username, website_url="", picture=""):
+        user, created = User.objects.get_or_create(username=username)  # TODO: no idea, how to handle images
+        user.username = username
+        user.save()
 
-    '''
-    python_cat = add_cat("Python", views=128, likes=64)
+        investor, created = Investor.objects.get_or_create(user=user)
+        investor.user = user
+        investor.website = website_url
+        investor.picture = picture
 
-    add_page(cat=python_cat,
-             title="Official Python Tutorial",
-             url="http://docs.python.org/2/tutorial/")
-
-    # Print out what we have added to the user.
-
-    for c in Category.objects.all():
-        for p in Page.objects.filter(category=c):
-            print "- {0} - {1}".format(str(c), str(p))
-
-
-
-def add_page(cat, title, url, views=0):
-    p = Page.objects.get_or_create(category=cat, title=title)[0]
-    p.url = url
-    p.views = views
-    p.save()
-    return p
-
-
-def add_cat(name, likes, views):
-    c = Category.objects.get_or_create(name=name)[0]
-    c.views = views
-    c.likes = likes
-    c.save()
-    return c
-'''
+    def truncate(self):
+        User.objects.all().delete()  # foreign keys clean objects in all other tables

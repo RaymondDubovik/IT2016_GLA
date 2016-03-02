@@ -127,7 +127,7 @@ def populate(request):
 
     # print('populate')
     population = Population()
-    population.populate()
+    population.populate(True)
 
     return render(request, 'Pitchify/populate.html', context)
 
