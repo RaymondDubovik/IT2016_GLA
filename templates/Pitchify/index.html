@@ -4,12 +4,90 @@
 
 {% block title %}Pitchify{% endblock %}
 
-{% block body_block %}
+{% block styles %}
+    <style>
+        .indexInfo {
+            padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+            padding-bottom: 50px;
+            text-align: center;
+            background: url({% static 'img/background.jpg' %}) no-repeat center center;
+            background-size: cover;
+        }
 
-{% if user.is_authenticated %}
-            <h1>Pitchify says... hello {{ user.username }}!</h1>
-        {% else %}
-            <h1>Pitchify says... hello world!</h1>
-        {% endif %}
+        h2, h3, span, label {
+            color: #eee;
+        }
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    {##}
+    {#    {% if user.is_authenticated %}#}
+    {#        <h1>Pitchify says... hello {{ user.username }}!</h1>#}
+    {#    {% else %}#}
+    {#        <h1>Pitchify says... hello world!</h1>#}
+    {#    {% endif %}#}
+    <div class="indexInfo">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    {% if user.is_authenticated %}
+                        <h3 class="slogan">
+                            Pitchify says... hello {{ user.username }}!
+                        </h3>
+                    {% else %}
+                        <h3 class="slogan">
+                            Pitchify helps you connect and share with the people in your life.
+                        </h3>
+                        </div>
+                        <div class="col-md-5">
+                        <form class="form-signin span8" id="user_form" method="post" action="/Pitchify/register/"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h2>Create your account</h2>
+                            {#                <div class="row">#}
+                            {#                    <div class="col-xs-6 col-md-6">#}
+                            {#                        <input class="form-control input-lg" name="firstname" placeholder="First Name" type="text"#}
+                            {#                               autofocus/>#}
+                            {#                    </div>#}
+                            {#                    <div class="col-xs-6 col-md-6">#}
+                            {#                        <input class="form-control input-lg" name="lastname" placeholder="Last Name" type="text"/>#}
+                            {#                    </div>#}
+                            {#                </div>#}
+                            <div id="userForm">
+                                {{ user_form }}
+                            </div>
+                            <div id="companyForm">
+                                {{ company_form }}
+                            </div>
+                            <div id="investorForm">
+                                {{ investor_form }}
+                            </div>
+                            {##}
+                            {#                {% for field in user_form.visible_fields %}#}
+                            {#                    {{ field.errors }}#}
+                            {#                    {{ field.help_text }}<br/>#}
+                            {#                    {{ field }}#}
+                            {#                    <input class="form-control input-lg" name="{{ field.name }}" placeholder="{{ field.label }}" type="{{ field.name }}"/>#}
+                            <br/>
+                            {#                {% endfor %}#}
+
+
+                            <span class="help-block">By clicking Create my account, you agree to our Terms and that you have read our Data Use Policy, including our Cookie Use.</span>
+                            <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
+                                Create my account
+                            </button>
+                        </form>
+                    {% endif %}
+
+                    </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+    <script src="{% static 'js/index.js' %} "></script>
 
 {% endblock %}

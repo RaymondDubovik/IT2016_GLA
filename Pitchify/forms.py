@@ -7,6 +7,7 @@ class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
 
     CHOICES = (
+        ('', ''),
         ('C', 'Company'),
         ('I', 'Investor')
     )
