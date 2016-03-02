@@ -9,7 +9,6 @@ class Company(models.Model):
     # The additional attributes we wish to include.
     description = models.TextField(blank=True)
 
-    # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
 
@@ -22,20 +21,19 @@ class Investor(models.Model):
     website = models.URLField(blank=True)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
-    # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
         return self.user.username
 
 
-class Pitch(models.Model): # foreign company
+class Pitch(models.Model):  # foreign company
     company = models.ForeignKey(Company)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    youtube_video_id = models.CharField(max_length=11)
     amount_required = models.IntegerField()
     created = models.DateTimeField()
     total_stocks = models.IntegerField()
     price_per_stock = models.IntegerField()
+    youtube_video_id = models.CharField(null=True, blank=True, max_length=11)
 
     def __unicode__(self):
         return self.title
@@ -54,7 +52,7 @@ class Offer(models.Model):
 
     pitch = models.ForeignKey(Pitch)
     investor = models.ForeignKey(Investor)
-    status = models.CharField(max_length=1) # TODO: implement choices
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PENDING)
     message = models.TextField()
     answer = models.TextField()
     stock_count = models.IntegerField()
