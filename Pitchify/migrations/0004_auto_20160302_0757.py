@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Pitchify', '0003_auto_20160220_0055'),
+        ('pitchify', '0003_auto_20160220_0055'),
     ]
 
     operations = [
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('stock_count', models.IntegerField()),
                 ('price', models.IntegerField()),
                 ('seen', models.BooleanField(default=False)),
-                ('investor_id', models.ForeignKey(to='Pitchify.Investor')),
+                ('investor_id', models.ForeignKey(to='pitchify.Investor')),
             ],
             options={
             },
@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('created', models.DateTimeField()),
                 ('total_stocks', models.IntegerField()),
                 ('price_per_stock', models.IntegerField()),
-                ('company_id', models.ForeignKey(to='Pitchify.Company')),
+                ('company_id', models.ForeignKey(to='pitchify.Company')),
             ],
             options={
             },
@@ -47,7 +47,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='offer',
             name='pitch_id',
-            field=models.ForeignKey(to='Pitchify.Pitch'),
+            field=models.ForeignKey(to='pitchify.Pitch'),
             preserve_default=True,
         ),
     ]

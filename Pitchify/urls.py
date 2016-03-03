@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from Pitchify import views
+from pitchify import views
 
 urlpatterns = patterns('',
                        # login

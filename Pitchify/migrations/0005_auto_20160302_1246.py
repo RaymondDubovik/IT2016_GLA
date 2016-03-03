@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Pitchify', '0004_auto_20160302_0757'),
+        ('pitchify', '0004_auto_20160302_0757'),
     ]
 
     operations = [

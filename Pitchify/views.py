@@ -1,12 +1,12 @@
-from Pitchify.forms import UserForm, CompanyForm, InvestorForm
+from pitchify.forms import UserForm, CompanyForm, InvestorForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from Pitchify.models import Company, Investor
-from Pitchify.populate import Population
+from pitchify.models import Company, Investor
+from pitchify.populate import Population
 
 
 def index(request):
@@ -114,12 +114,12 @@ def index(request):
 
     # Render the template depending on the context.
     return render(request,
-                  'Pitchify/index.html',
+                  'pitchify/index.html',
                   {'user_form': user_form, 'company_form': company_form,
                    'investor_form': investor_form, 'registered': registered, 'context': context})
 
 
-    # return render(request, 'Pitchify/index.html', context)
+    # return render(request, 'pitchify/index.html', context)
 
 
 def populate(request):
@@ -129,7 +129,7 @@ def populate(request):
     population = Population()
     population.populate(True)
 
-    return render(request, 'Pitchify/populate.html', context)
+    return render(request, 'pitchify/populate.html', context)
 
 
 def register(request):
@@ -218,7 +218,7 @@ def register(request):
 
     # Render the template depending on the context.
     return render(request,
-                  'Pitchify/register.html',
+                  'pitchify/register.html',
                   {'user_form': user_form, 'company_form': company_form,
                    'investor_form': investor_form, 'registered': registered})
 
@@ -247,10 +247,10 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
-                return HttpResponseRedirect('/Pitchify/')
+                return HttpResponseRedirect('/pitchify/')
             else:
                 # An inactive account was used - no logging in!
-                return HttpResponse("Your Pitchify account is disabled.")
+                return HttpResponse("Your pitchify account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
             print "Invalid login details: {0}, {1}".format(username, password)
@@ -261,7 +261,7 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'Pitchify/login.html', {})
+        return render(request, 'pitchify/login.html', {})
 
 
 # Use the login_required() decorator to ensure only those logged in can access the view.
@@ -271,4 +271,4 @@ def user_logout(request):
     logout(request)
 
     # Take the user back to the homepage.
-    return HttpResponseRedirect('/Pitchify/')
+    return HttpResponseRedirect('/pitchify/')

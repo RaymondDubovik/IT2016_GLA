@@ -1,7 +1,7 @@
 from datetime import datetime
 from pprint import pprint
 
-from Pitchify.models import Company, Investor, Pitch, Offer
+from pitchify.models import Company, Investor, Pitch, Offer
 from django.contrib.auth.models import User
 
 

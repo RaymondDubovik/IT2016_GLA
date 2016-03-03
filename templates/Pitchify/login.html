@@ -1,4 +1,4 @@
-{% extends 'Pitchify/base.html' %}
+{% extends 'pitchify/base.html' %}
 
 {% load staticfiles %}
 
@@ -51,7 +51,7 @@
 
 {% block body_block %}
 
-    <form class="form-signin" method="post" action="/Pitchify/login/">
+    <form class="form-signin" method="post" action="/pitchify/login/">
         {% csrf_token %}
         <h2 class="form-signin-heading">Please sign in</h2>
         <label for="inputUsername" class="sr-only">Username</label>

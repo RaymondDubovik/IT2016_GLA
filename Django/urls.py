@@ -8,7 +8,7 @@ urlpatterns = patterns('',
                        # url(r'^blog/', include('blog.urls')),
 
                        url(r'^admin/', include(admin.site.urls)),
-                       url(r'^Pitchify/', include('Pitchify.urls')),
+                       url(r'^pitchify/', include('pitchify.urls')),
                        )
 
 if settings.DEBUG:

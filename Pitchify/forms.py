@@ -1,4 +1,4 @@
-from Pitchify.models import Company, Investor
+from pitchify.models import Company, Investor
 from django import forms
 from django.contrib.auth.models import User
 

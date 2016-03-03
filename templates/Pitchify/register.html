@@ -9,11 +9,11 @@
 
         {% if registered %}
         Pitchify says: <strong>thank you for registering!</strong>
-        <a href="/Pitchify/login">Click to log in.</a><br />
+        <a href="/pitchify/login">Click to log in.</a><br />
         {% else %}
         Pitchify says: <strong>register here!</strong><br />
 
-        <form id="user_form" method="post" action="/Pitchify/register/"
+        <form id="user_form" method="post" action="/pitchify/register/"
                 enctype="multipart/form-data">
 
             {% csrf_token %}
