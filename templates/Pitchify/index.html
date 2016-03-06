@@ -7,26 +7,14 @@
 {% block styles %}
     <style>
         .indexInfo {
-            padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
-            padding-bottom: 50px;
-            text-align: center;
             background: url({% static 'img/background.jpg' %}) no-repeat center center;
-            background-size: cover;
-        }
-
-        h2, h3, span, label {
-            color: #eee;
         }
     </style>
+
+    <link href="{% static 'css/index.css' %} " rel="stylesheet">
 {% endblock %}
 
 {% block body_block %}
-    {##}
-    {#    {% if user.is_authenticated %}#}
-    {#        <h1>pitchify says... hello {{ user.username }}!</h1>#}
-    {#    {% else %}#}
-    {#        <h1>pitchify says... hello world!</h1>#}
-    {#    {% endif %}#}
     <div class="indexInfo">
         <div class="container">
             <div class="row">
@@ -44,34 +32,40 @@
                         <form class="form-signin span8" id="user_form" method="post" action="/pitchify/register/"
                               enctype="multipart/form-data">
                             {% csrf_token %}
+
                             <h2>Create your account</h2>
-                            {#                <div class="row">#}
-                            {#                    <div class="col-xs-6 col-md-6">#}
-                            {#                        <input class="form-control input-lg" name="firstname" placeholder="First Name" type="text"#}
-                            {#                               autofocus/>#}
-                            {#                    </div>#}
-                            {#                    <div class="col-xs-6 col-md-6">#}
-                            {#                        <input class="form-control input-lg" name="lastname" placeholder="Last Name" type="text"/>#}
-                            {#                    </div>#}
-                            {#                </div>#}
+
                             <div id="userForm">
-                                {{ user_form }}
+                                {% for field in user_form %}
+                                    {% if  field.field.widget.input_type == null %}
+                                        {{ field }}
+                                    {% else %}
+                                        <input class="form-control input-lg" name="{{ field.name }}"
+                                               placeholder="{{ field.label }}"
+                                               type="{{ field.field.widget.input_type }}"/>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                             <div id="companyForm">
-                                {{ company_form }}
+                                {% for field in company_form %}
+                                    {% if  field.field.widget.input_type == null %}
+                                        {{ field }}
+                                    {% else %}
+                                        <input class="form-control input-lg" name="{{ field.name }}"
+                                               placeholder="{{ field.label }}"
+                                               type="{{ field.field.widget.input_type }}"/>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                             <div id="investorForm">
-                                {{ investor_form }}
+                                {% for field in investor_form %}
+                                    <input class="form-control input-lg" name="{{ field.name }}"
+                                           placeholder="{{ field.label }}"
+                                           type="{{ field.field.widget.input_type }}"/>
+                                {% endfor %}
                             </div>
-                            {##}
-                            {#                {% for field in user_form.visible_fields %}#}
-                            {#                    {{ field.errors }}#}
-                            {#                    {{ field.help_text }}<br/>#}
-                            {#                    {{ field }}#}
-                            {#                    <input class="form-control input-lg" name="{{ field.name }}" placeholder="{{ field.label }}" type="{{ field.name }}"/>#}
-                            <br/>
-                            {#                {% endfor %}#}
 
+                            <br/>
 
                             <span class="help-block">By clicking Create my account, you agree to our Terms and that you have read our Data Use Policy, including our Cookie Use.</span>
                             <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
@@ -79,7 +73,6 @@
                             </button>
                         </form>
                     {% endif %}
-
                     </div>
             </div>
         </div>

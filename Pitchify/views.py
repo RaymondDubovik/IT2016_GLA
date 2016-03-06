@@ -1,10 +1,11 @@
-from pitchify.forms import UserForm, CompanyForm, InvestorForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.models import User
+
+from pitchify.forms import UserForm, CompanyForm, InvestorForm
 from pitchify.models import Company, Investor
 from pitchify.populate import Population
 
@@ -17,7 +18,6 @@ def index(request):
         try:
             Company.objects.get(user=u)
             context['type'] = 'C'
-            print context,'here'
         except:
             pass
         try:
@@ -30,93 +30,18 @@ def index(request):
         pass
 
         # A boolean value for telling the template whether the registration was successful.
-    # Set to False initially. Code changes value to True when registration succeeds.
-    registered = False
+        # Set to False initially. Code changes value to True when registration succeeds.
 
-    # If it's a HTTP POST, we're interested in processing form data.
-    if request.method == 'POST':
-        # Attempt to grab information from the raw form information.
-        # Note that we make use of both UserForm and UserProfileForm.
-        user_form = UserForm(data=request.POST)
-        # profile_form = UserProfileForm(data=request.POST)
-        company_form = CompanyForm(data=request.POST)
-
-        investor_form = InvestorForm(data=request.POST)
-
-        # If the two forms are valid...
-        if user_form.is_valid():
-            user_type = user_form.cleaned_data['type']
-            print user_type
-            # Save the user's form data to the database.
-            if user_type == 'C' and company_form.is_valid():
-                user = user_form.save()
-
-                # Now we hash the password with the set_password method.
-                # Once hashed, we can update the user object.
-                user.set_password(user.password)
-                user.save()
-
-                # Now sort out the UserProfile instance.
-                # Since we need to set the user attribute ourselves, we set commit=False.
-                # This delays saving the model until we're ready to avoid integrity problems.
-                company = company_form.save(commit=False)
-                company.user = user
-
-                # Now we save the UserProfile model instance.
-                #
-                # g = Group.objects.get_or_create(name='Company')
-                # user.groups.add(g)
-                company.save()
-
-                # Update our variable to tell the template registration was successful.
-                registered = True
-            elif user_type == 'I' and investor_form.is_valid():
-                user = user_form.save()
-
-                # Now we hash the password with the set_password method.
-                # Once hashed, we can update the user object.
-                user.set_password(user.password)
-                user.save()
-
-                # Now sort out the UserProfile instance.
-                # Since we need to set the user attribute ourselves, we set commit=False.
-                # This delays saving the model until we're ready to avoid integrity problems.
-                investor = investor_form.save(commit=False)
-                investor.user = user
-
-                # Did the user provide a profile picture?
-                # If so, we need to get it from the input form and put it in the UserProfile model.
-                if 'picture' in request.FILES:
-                    investor.picture = request.FILES['picture']
-
-                # # Now we save the UserProfile model instance.
-                # g = Group.objects.get_or_create(name='Investor')
-                # user.groups.add(g)
-                investor.save()
-
-                # Update our variable to tell the template registration was successful.
-                registered = True
-
-
-        # Invalid form or forms - mistakes or something else?
-        # Print problems to the terminal.
-        # They'll also be shown to the user.
-        else:
-            print user_form.errors, investor_form.errors, company_form.errors
-
-    # Not a HTTP POST, so we render our form using two ModelForm instances.
-    # These forms will be blank, ready for user input.
-    else:
-        user_form = UserForm()
-        # profile_form = UserProfileForm()
-        company_form = CompanyForm()
-        investor_form = InvestorForm()
+    user_form = UserForm()
+    # profile_form = UserProfileForm()
+    company_form = CompanyForm()
+    investor_form = InvestorForm()
 
     # Render the template depending on the context.
     return render(request,
                   'pitchify/index.html',
                   {'user_form': user_form, 'company_form': company_form,
-                   'investor_form': investor_form, 'registered': registered, 'context': context})
+                   'investor_form': investor_form, 'context': context})
 
 
     # return render(request, 'pitchify/index.html', context)
@@ -150,7 +75,7 @@ def register(request):
         # If the two forms are valid...
         if user_form.is_valid():
             user_type = user_form.cleaned_data['type']
-            print user_type
+
             # Save the user's form data to the database.
             if user_type == 'C' and company_form.is_valid():
                 user = user_form.save()
@@ -201,6 +126,11 @@ def register(request):
                 # Update our variable to tell the template registration was successful.
                 registered = True
 
+            if registered:
+                user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+                login(request, user)
+                return HttpResponseRedirect("/pitchify/")
+
 
         # Invalid form or forms - mistakes or something else?
         # Print problems to the terminal.
@@ -218,12 +148,13 @@ def register(request):
 
     # Render the template depending on the context.
     return render(request,
-                  'pitchify/register.html',
+                  'pitchify/index.html',
                   {'user_form': user_form, 'company_form': company_form,
-                   'investor_form': investor_form, 'registered': registered})
+                   'investor_form': investor_form})
 
 
 def user_login(request):
+    errors = ''
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -250,11 +181,12 @@ def user_login(request):
                 return HttpResponseRedirect('/pitchify/')
             else:
                 # An inactive account was used - no logging in!
-                return HttpResponse("Your pitchify account is disabled.")
+                errors = "Your pitchify account is disabled."
+                return render(request, 'pitchify/login.html', {"errors": errors})
         else:
             # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            errors = "Invalid login details"
+            return render(request, 'pitchify/login.html', {"errors": errors})
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.

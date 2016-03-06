@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
           integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
           crossorigin="anonymous">
+
     <link href="{% static 'css/global.css' %} " rel="stylesheet">
 
     {% block styles %}
@@ -34,18 +35,26 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     {#            <h2>you are registered as {{ type }}</h2>#}
-                    {% if type == 'C' %}
+                    {% if context.type == 'C' %}
                         <li><a href="">Create Pitch</a></li>
                         <li><a href="">My Pitches</a></li>
                     {% endif %}
-                    {% if type == 'I' %}
+                    {% if contexttype == 'I' %}
                         <li><a href="">View Pitches</a></li>
                         <li><a href="">My Investments</a></li>
                     {% endif %}
                     <li><a href="/pitchify/logout/">Logout</a></li>
                 {% else %}
-                    <li><a href="/pitchify/register/">Register Here</a></li>
-                    <li><a href="/pitchify/login/">Login</a></li>
+                    <form class="navbar-form navbar-right" method="post" action="/pitchify/login/">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
                 {% endif %}
             </ul>
         </div>
