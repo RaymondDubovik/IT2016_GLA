@@ -3,9 +3,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib.auth.models import User
 
-from pitchify.forms import UserForm, CompanyForm, InvestorForm
+from pitchify.forms import *
 from pitchify.models import Company, Investor
 from pitchify.populate import Population
 
@@ -42,9 +41,6 @@ def index(request):
                   'pitchify/index.html',
                   {'user_form': user_form, 'company_form': company_form,
                    'investor_form': investor_form, 'context': context})
-
-
-    # return render(request, 'pitchify/index.html', context)
 
 
 def populate(request):
@@ -204,3 +200,21 @@ def user_logout(request):
 
     # Take the user back to the homepage.
     return HttpResponseRedirect('/pitchify/')
+
+
+@login_required
+def create_pitch(request):
+    if request.method == 'POST':
+        pitch_form = PitchForm(data=request.POST)
+        # print pitch_form
+        # pitch_form.data['company_id'] = request.user.id
+        if pitch_form.is_valid():
+            company = Company.objects.get(user=request.user)
+            pitch = pitch_form.save(commit=False)
+            pitch.company = company
+            pitch.save()
+        else:
+            print pitch_form.errors
+
+    pitch_form = PitchForm()
+    return render(request, 'pitchify/create_pitch.html', {'pitch_form': pitch_form})

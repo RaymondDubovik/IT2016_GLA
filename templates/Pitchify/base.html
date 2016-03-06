@@ -36,7 +36,7 @@
                 {% if user.is_authenticated %}
                     {#            <h2>you are registered as {{ type }}</h2>#}
                     {% if context.type == 'C' %}
-                        <li><a href="">Create Pitch</a></li>
+                        <li><a href="/pitchify/create_pitch">Create Pitch</a></li>
                         <li><a href="">My Pitches</a></li>
                     {% endif %}
                     {% if contexttype == 'I' %}

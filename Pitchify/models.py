@@ -29,11 +29,10 @@ class Pitch(models.Model):  # foreign company
     company = models.ForeignKey(Company)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    amount_required = models.IntegerField()
-    created = models.DateTimeField()
+    created = models.DateTimeField(auto_now=True)
     total_stocks = models.IntegerField()
     price_per_stock = models.IntegerField()
-    youtube_video_id = models.CharField(null=True, blank=True, max_length=11)
+    youtube_video_id = models.CharField(null=True, blank=True, max_length=50)
 
     def __unicode__(self):
         return self.title

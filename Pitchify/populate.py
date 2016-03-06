@@ -76,7 +76,6 @@ class Population():
                     title="My awesome pitch number " + str(i),
                     description="just a very long description here for some random keywords for testing I believe this should do but is too long for a one liner so that might be a problem in code but who cares I definitely don't as you can see about this PEP8 guideline thing because they are only guidelines after all and I don't want to put hardcoded strings across many lines just to comply with the guidelines",
                     youtube_video_id='6p1ypESj6nI',
-                    amount_required=10000,
                     total_stocks=150,
                     price_per_stock=100
                 ))
@@ -112,7 +111,6 @@ class Population():
         pitch, created = Pitch.objects.get_or_create(
             company=company,
             title=title,
-            amount_required=amount_required,
             total_stocks=total_stocks,
             price_per_stock=price_per_stock,
             created=created)
