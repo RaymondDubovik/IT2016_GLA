@@ -37,9 +37,9 @@
                     {#            <h2>you are registered as {{ type }}</h2>#}
                     {% if context.type == 'C' %}
                         <li><a href="/pitchify/create_pitch">Create Pitch</a></li>
-                        <li><a href="">My Pitches</a></li>
+                        <li><a href="/pitchify/my_pitches">My Pitches</a></li>
                     {% endif %}
-                    {% if contexttype == 'I' %}
+                    {% if context.type == 'I' %}
                         <li><a href="">View Pitches</a></li>
                         <li><a href="">My Investments</a></li>
                     {% endif %}

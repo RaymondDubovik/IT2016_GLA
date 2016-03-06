@@ -1,0 +1,30 @@
+{% extends 'pitchify/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}My Pitches{% endblock %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th class="text-center">Pitch</th>
+                <th class="text-center">Total Stocks</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pitch in context.my_pitches %}
+                <tr>
+                    <td class="text-center">{{ pitch }}</td>
+                    <td class="text-center">{{ pitch.total_stocks }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

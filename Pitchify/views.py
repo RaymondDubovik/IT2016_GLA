@@ -9,27 +9,33 @@ from pitchify.models import Company, Investor
 from pitchify.populate import Population
 
 
-def index(request):
-    # Render and return the rendered response back to the user.
-    context = {'type': ''}
+def getUserType(request):
+    type = ''
     try:
         u = User.objects.get(username=request.user.username)
         try:
             Company.objects.get(user=u)
-            context['type'] = 'C'
+            type = 'C'
         except:
             pass
         try:
             Investor.objects.get(user=u)
-            context['type'] = 'I'
-            print context
+            type = 'I'
         except:
             pass
     except:
         pass
+    return type
 
-        # A boolean value for telling the template whether the registration was successful.
-        # Set to False initially. Code changes value to True when registration succeeds.
+
+def index(request):
+    # Render and return the rendered response back to the user.
+    user_type = getUserType(request)
+
+    context = {'type': user_type}
+
+    # A boolean value for telling the template whether the registration was successful.
+    # Set to False initially. Code changes value to True when registration succeeds.
 
     user_form = UserForm()
     # profile_form = UserProfileForm()
@@ -216,5 +222,23 @@ def create_pitch(request):
         else:
             print pitch_form.errors
 
+        return HttpResponseRedirect('/pitchify/my_pitches')
+
     pitch_form = PitchForm()
     return render(request, 'pitchify/create_pitch.html', {'pitch_form': pitch_form})
+
+
+@login_required
+def my_pitches(request):
+    context = {}
+
+    user_type = getUserType(request)
+
+    context['type'] = user_type
+
+    company = Company.objects.get(user=request.user)
+    pitches_for_company = Pitch.objects.filter(company=company)
+
+    context['my_pitches'] = pitches_for_company
+
+    return render(request, 'pitchify/my_pitches.html', {'context': context})
