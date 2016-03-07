@@ -8,7 +8,10 @@ from pitchify.forms import *
 from pitchify.models import Company, Investor
 from pitchify.populate import Population
 
+MAX_DESCRIPTION_LENGTH = 100
 
+
+# TODO: refactor. logic belongs to the model. also, should be static
 def getUserType(request):
     type = ''
     try:
@@ -242,3 +245,21 @@ def my_pitches(request):
     context['my_pitches'] = pitches_for_company
 
     return render(request, 'pitchify/my_pitches.html', {'context': context})
+
+
+def investor_pitches(request):
+    pitches = Pitch.objects.order_by('-created')
+
+    # loop through all pitches the pitches
+    for pitch in pitches:
+        # if description is too long, truncate it and append 3 dots at the end
+        if len(pitch.description) > MAX_DESCRIPTION_LENGTH:
+            pitch.description = pitch.description[:MAX_DESCRIPTION_LENGTH] + '...'
+
+    context = {'pitches': pitches,}
+    return render(request, 'pitchify/investor_pitches.html', context)
+
+
+def investor_pitch(request, pitch_id):
+    # todo: implement
+    return render(request, 'pitchify/investor_pitch.html', {'pitch_id': pitch_id})

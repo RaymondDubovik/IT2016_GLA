@@ -1,0 +1,42 @@
+{% extends 'pitchify/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Pitches{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/investor_pitches.js' %} "></script>
+{% endblock %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <table class="table table-hover" id="clickable-table">
+            <thead>
+            <tr>
+                <th class="text-center">Pitch</th>
+                <th class="text-center">Company name</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Stocks left</th>
+                <th class="text-center">Invested</th>
+                <th class="text-center hidden">Edit</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pitch in pitches %}
+                <tr class="tr-clickable">
+                    <td class="text-center">{{ pitch.title }}</td>
+                    <td class="text-center"> TODO: company name here</td>
+                    <td class="text-center">{{ pitch.description }}</td>
+                    <td class="text-center"> TODO: total_stocks - stocks_bought</td>
+                    <td class="text-center"> TODO: pitch.price_per_stock * stocks_bought</td>
+                    <td class="text-center hidden"><a href="{% url 'pitchify:investor_pitch' pitch.id %}">EDIT</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
