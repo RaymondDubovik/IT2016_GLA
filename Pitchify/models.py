@@ -24,18 +24,25 @@ class Investor(models.Model):
     def __unicode__(self):
         return self.user.username
 
+from django.utils.timezone import now
 
 class Pitch(models.Model):  # foreign company
     company = models.ForeignKey(Company)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True, default=now)
     total_stocks = models.IntegerField()
+    sold_stocks = models.IntegerField(default=0)
     price_per_stock = models.IntegerField()
     youtube_video_id = models.CharField(null=True, blank=True, max_length=50)
 
     def __unicode__(self):
         return self.title
+
+    @property
+    def percentage_sold(self):
+        return (self.sold_stocks * 100)/self.total_stocks
 
 
 class Offer(models.Model):

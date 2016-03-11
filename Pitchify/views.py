@@ -12,7 +12,7 @@ MAX_DESCRIPTION_LENGTH = 100
 
 
 # TODO: refactor. logic belongs to the model. also, should be static
-def getUserType(request):
+def get_user_type(request):
     type = ''
     try:
         u = User.objects.get(username=request.user.username)
@@ -32,24 +32,31 @@ def getUserType(request):
 
 
 def index(request):
-    # Render and return the rendered response back to the user.
-    user_type = getUserType(request)
+        # Render and return the rendered response back to the user.
+    user_type = get_user_type(request)
 
     context = {'type': user_type}
+    if request.user.is_authenticated():
+        if user_type == 'C':
+            company = Company.objects.get(user=request.user)
+            top_five_selling_pitches = Pitch.objects.filter(company=company).order_by('-sold_stocks')
+            return render(request,
+                          'pitchify/index.html',
+                          {'context': context, "top_five_selling_pitches": top_five_selling_pitches})
+    else:
+        # A boolean value for telling the template whether the registration was successful.
+        # Set to False initially. Code changes value to True when registration succeeds.
 
-    # A boolean value for telling the template whether the registration was successful.
-    # Set to False initially. Code changes value to True when registration succeeds.
+        user_form = UserForm()
+        # profile_form = UserProfileForm()
+        company_form = CompanyForm()
+        investor_form = InvestorForm()
 
-    user_form = UserForm()
-    # profile_form = UserProfileForm()
-    company_form = CompanyForm()
-    investor_form = InvestorForm()
-
-    # Render the template depending on the context.
-    return render(request,
-                  'pitchify/index.html',
-                  {'user_form': user_form, 'company_form': company_form,
-                   'investor_form': investor_form, 'context': context})
+        # Render the template depending on the context.
+        return render(request,
+                      'pitchify/index.html',
+                      {'user_form': user_form, 'company_form': company_form,
+                       'investor_form': investor_form, 'context': context})
 
 
 def populate(request):
@@ -228,18 +235,24 @@ def create_pitch(request):
         return HttpResponseRedirect('/pitchify/my_pitches')
 
     pitch_form = PitchForm()
-    return render(request, 'pitchify/create_pitch.html', {'pitch_form': pitch_form})
+    # getting user type
+    user_type = get_user_type(request)
+    context = {'type': user_type}
+    return render(request, 'pitchify/create_pitch.html', {'pitch_form': pitch_form, 'context': context})
 
+from django.contrib.auth.decorators import user_passes_test
 
+# @user_passes_test(lambda u: u.is_superuser)
 @login_required
 def my_pitches(request):
     context = {}
 
-    user_type = getUserType(request)
+    user_type = get_user_type(request)
 
     context['type'] = user_type
 
     company = Company.objects.get(user=request.user)
+    # pages = Page.objects.filter(category=category).order_by('-views')
     pitches_for_company = Pitch.objects.filter(company=company)
 
     context['my_pitches'] = pitches_for_company

@@ -5,26 +5,37 @@
 {% block title %}My Pitches{% endblock %}
 
 {% block styles %}
-
+    <link href="{% static 'css/my_pitches.css' %} " rel="stylesheet">
 {% endblock %}
 
 {% block body_block %}
     <div class="container">
-        <table class="table table-hover">
+        <table class="table" id="myPitches">
             <thead>
             <tr>
                 <th class="text-center">Pitch</th>
+                <th class="text-center">Sold Stocks</th>
                 <th class="text-center">Total Stocks</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="table-body">
             {% for pitch in context.my_pitches %}
-                <tr>
-                    <td class="text-center">{{ pitch }}</td>
+                <tr data-progress="{{ pitch.percentage_sold }}">
+                    <td class="text-center">
+                        <div class="progress"></div>
+                        {{ pitch }}
+                    </td>
+                    <td class="text-center">
+                        {{ pitch.sold_stocks }}
+                    </td>
                     <td class="text-center">{{ pitch.total_stocks }}</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/my_pitches.js' %}"></script>
 {% endblock %}
