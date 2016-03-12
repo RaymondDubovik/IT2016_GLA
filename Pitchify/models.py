@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.utils.timezone import now
 
 class Company(models.Model):
     # This line is required. Links UserProfile to a User model instance.
@@ -24,7 +24,6 @@ class Investor(models.Model):
     def __unicode__(self):
         return self.user.username
 
-from django.utils.timezone import now
 
 class Pitch(models.Model):  # foreign company
     company = models.ForeignKey(Company)
@@ -43,6 +42,14 @@ class Pitch(models.Model):  # foreign company
     @property
     def percentage_sold(self):
         return (self.sold_stocks * 100)/self.total_stocks
+
+    @property
+    def stocks_left(self):
+        return self.total_stocks - self.sold_stocks
+
+    @property
+    def invested(self):
+        return self.sold_stocks * self.price_per_stock
 
 
 class Offer(models.Model):

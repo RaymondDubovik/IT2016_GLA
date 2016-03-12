@@ -1,5 +1,6 @@
 from datetime import datetime
 from pprint import pprint
+from random import randint
 
 from pitchify.models import Company, Investor, Pitch, Offer
 from django.contrib.auth.models import User
@@ -71,12 +72,15 @@ class Population():
         pitches = []
         for company in companies:
             for i in range(1, 3):  # 2 pitches per company
+                total_stocks = randint(100, 200)
+                sold_stocks = randint(10, 100)
                 pitches.append(self.add_pitch(
                     company,
                     title="My awesome pitch number " + str(i),
                     description="just a very long description here for some random keywords for testing I believe this should do but is too long for a one liner so that might be a problem in code but who cares I definitely don't as you can see about this PEP8 guideline thing because they are only guidelines after all and I don't want to put hardcoded strings across many lines just to comply with the guidelines",
                     youtube_video_id='6p1ypESj6nI',
-                    total_stocks=150,
+                    total_stocks=total_stocks,
+                    sold_stocks=sold_stocks,
                     price_per_stock=100
                 ))
         return pitches
@@ -106,12 +110,13 @@ class Population():
 
         return investor
 
-    def add_pitch(self, company, title, description, amount_required, total_stocks, price_per_stock,
+    def add_pitch(self, company, title, description, total_stocks, sold_stocks, price_per_stock,
                   youtube_video_id='', created=datetime.now()):
         pitch, created = Pitch.objects.get_or_create(
             company=company,
             title=title,
             total_stocks=total_stocks,
+            sold_stocks=sold_stocks,
             price_per_stock=price_per_stock,
             created=created)
         pitch.description = description
