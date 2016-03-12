@@ -11,27 +11,50 @@
 {% block body_block %}
     <div class="indexInfo">
         <div class="container" id="main-container">
-            <div>
-                <iframe class="block center" width="560" height="315" src="https://www.youtube.com/embed/{{ pitch.youtube_video_id }}" frameborder="0" allowfullscreen></iframe>
-            </div>
-                <div class="div-margined" style="display: table; width: 100%;">
-                <div style="display: table-cell; vertical-align: middle;">
-                    <span class="text" style="">{{ pitch.company.user.username }}</span>
-                </div>
+            <div class="display-table">
 
-                <div class="pull-right progressbar-container" style="display: table-cell;">
-                    <div class="text" id="stocks">{{ pitch.sold_stocks }} / {{ pitch.total_stocks}} stocks bought</div>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width:{{ percentage_claimed }}%">
-                            {{ percentage_claimed }}%
+                <div id="pitch-main">
+                    <div class="display-cell">
+                        <div class="display-cell">
+                            <div>
+                                <iframe class="block center" width="560" height="315" src="https://www.youtube.com/embed/{{ pitch.youtube_video_id }}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                                <div class="div-margined display-table full-width">
+                                <div class="display-cell vertical-middle">
+                                    <span class="text" style="">{{ pitch.company.user.username }}</span>
+                                </div>
+
+                                <div class="pull-right progressbar-container display-table">
+                                    <div class="text" id="stocks">{{ pitch.sold_stocks }} / {{ pitch.total_stocks}} stocks bought</div>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" style="width:{{ percentage_claimed }}%">
+                                            {{ percentage_claimed }}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="div-margined">
+                                <span class="text" id="description">{{ pitch.description }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="div-margined">
-                <span class="text" id="#description">{{ pitch.description }}</span>
-            </div>
 
+                <div id="top-pitches">
+                    <div><h3 class="text">Top pitches</h3></div>
+                    {% for pitch in top_pitches %}
+                        <div class="div-margined display-table">
+                            <div class="display-cell">
+                                <img class="pitch-image" src="http://img.youtube.com/vi/{{ pitch.youtube_video_id }}/0.jpg" />
+                            </div>
+                            <div class="text display-cell vertical-top" style="padding-left: 10px; text-align: left;">
+                                <div>{{ pitch.title }}</div>
+                                <div>Invested {{ pitch.invested }}£</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

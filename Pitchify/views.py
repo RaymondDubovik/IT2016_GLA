@@ -283,7 +283,7 @@ def investor_pitch(request, pitch_id):
 
     context = {'pitch': pitch, 'pitch_id': pitch_id}
     context['percentage_claimed'] = pitch.sold_stocks * 100 / pitch.total_stocks
-
+    context['top_pitches'] = Pitch.objects.order_by("-sold_stocks")[:10]
 
 
     # todo: claimed

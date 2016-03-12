@@ -21,8 +21,8 @@
 }
 
 #main-container {
-    width: 600px;
-    max-width: 600px;
+    width: 900px;
+    max-width: 900px;
 }
 
 .text {
@@ -40,4 +40,40 @@
 #description {
     text-align: justify;
     display: inline-block;
+}
+
+.display-cell {
+    display : table-cell;
+}
+
+.display-table {
+    display: table;
+}
+
+.vertical-top {
+    vertical-align: top;
+}
+
+#top-pitches {
+    display: table-cell;
+    padding-left: 20px;
+    width: 300px;
+    vertical-align: top;
+}
+
+.pitch-image {
+    width: 75px;
+}
+
+.full-width {
+    width: 100%
+}
+
+.vertical-middle {
+    vertical-align: middle;
+}
+
+#pitch-main {
+    display: table-cell;
+    width: 600px;
 }
