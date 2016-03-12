@@ -6,6 +6,34 @@
     background-size: cover;
 }
 
+#top-pitches {
+    display: table-cell;
+    padding-left: 20px;
+    width: 300px;
+    vertical-align: top;
+}
+
+#top-pitches {
+    display: table-cell;
+    padding-left: 20px;
+    width: 300px;
+    vertical-align: top;
+}
+
+#top-pitches {
+    display: table-cell;
+    padding-left: 20px;
+    width: 300px;
+    vertical-align: top;
+}
+
+#top-pitches {
+    display: table-cell;
+    padding-left: 20px;
+    width: 300px;
+    vertical-align: top;
+}
+
 .block {
     display: block;
 }
@@ -54,13 +82,6 @@
     vertical-align: top;
 }
 
-#top-pitches {
-    display: table-cell;
-    padding-left: 20px;
-    width: 300px;
-    vertical-align: top;
-}
-
 .pitch-image {
     width: 75px;
 }
@@ -76,4 +97,17 @@
 #pitch-main {
     display: table-cell;
     width: 600px;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.top-pitch {
+    padding-left: 10px;
+    text-align: left;
 }

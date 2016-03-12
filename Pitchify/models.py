@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.template.defaulttags import register
 from django.utils.timezone import now
 
 class Company(models.Model):
@@ -53,7 +54,7 @@ class Pitch(models.Model):  # foreign company
 
 
 class Offer(models.Model):
-    PENDING = 'P'
+    PENDING = '?'
     ACCEPTED = 'A'
     DECLINED = 'D'
 
@@ -73,4 +74,4 @@ class Offer(models.Model):
     seen = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return "Offer: from '" + self.investor.user.username + "' for '" + self.pitch.title + "'"
+        return unicode("Offer: from '" + self.investor.user.username + "' for '" + self.pitch.title + "'")

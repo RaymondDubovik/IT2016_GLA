@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from pitchify.forms import *
-from pitchify.models import Company, Investor
+from pitchify.models import Company, Investor, Offer
 from pitchify.populate import Population
 
 from django.contrib.auth.decorators import user_passes_test
@@ -277,19 +277,19 @@ def investor_pitch(request, pitch_id):
     try:
         pitch = Pitch.objects.get(id=pitch_id)
     except: # pitch does not exist
-        return render(request, 'pitchify/error.html',{'error_message': "Could not find a pitch!",
-                                                      'return_message': 'Browse pitches',
-                                                      'return_url': 'pitchify:investor_pitches',})
+        return render(request, 'pitchify/error.html',
+                      {'error_message': "Could not find a pitch!",
+                       'return_message': 'Browse pitches',
+                       'return_url': 'pitchify:investor_pitches',})
 
-    context = {'pitch': pitch, 'pitch_id': pitch_id}
+    context = {'pitch': pitch, 'pitch_id': pitch_id, 'Offer': Offer}
     context['percentage_claimed'] = pitch.sold_stocks * 100 / pitch.total_stocks
     context['top_pitches'] = Pitch.objects.order_by("-sold_stocks")[:10]
 
+    # TODO: replace with meaningful user!!!
+    user = User.objects.get(id=24)
+    investor = Investor.objects.get(user=user)
+    offers = Offer.objects.filter(investor=investor, pitch=pitch).order_by('status')
+    context['offers'] = offers
 
-    # todo: claimed
-
-    # youtube image link:
-    # http://img.youtube.com/vi/<insert-youtube-video-id-here>/0.jpg
-
-    # todo: implement
     return render(request, 'pitchify/investor_pitch.html', context)
