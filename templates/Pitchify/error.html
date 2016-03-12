@@ -1,0 +1,25 @@
+{% extends 'pitchify/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}My Pitches{% endblock %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block body_block %}
+    <div class="indexInfo">
+        <div class="container">
+            <div class="alert alert-danger">
+                {{ error_message }}
+                {% if return_url and return_message %}
+                    <a href="{% url return_url %}">{{ return_message }}</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

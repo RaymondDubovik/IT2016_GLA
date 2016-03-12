@@ -8,6 +8,8 @@ from pitchify.forms import *
 from pitchify.models import Company, Investor
 from pitchify.populate import Population
 
+from django.contrib.auth.decorators import user_passes_test
+
 MAX_DESCRIPTION_LENGTH = 100
 
 
@@ -240,8 +242,6 @@ def create_pitch(request):
     context = {'type': user_type}
     return render(request, 'pitchify/create_pitch.html', {'pitch_form': pitch_form, 'context': context})
 
-from django.contrib.auth.decorators import user_passes_test
-
 # @user_passes_test(lambda u: u.is_superuser)
 @login_required
 def my_pitches(request):
@@ -274,5 +274,22 @@ def investor_pitches(request):
 
 
 def investor_pitch(request, pitch_id):
+    try:
+        pitch = Pitch.objects.get(id=pitch_id)
+    except: # pitch does not exist
+        return render(request, 'pitchify/error.html',{'error_message': "Could not find a pitch!",
+                                                      'return_message': 'Browse pitches',
+                                                      'return_url': 'pitchify:investor_pitches',})
+
+    context = {'pitch': pitch, 'pitch_id': pitch_id}
+    context['percentage_claimed'] = pitch.sold_stocks * 100 / pitch.total_stocks
+
+
+
+    # todo: claimed
+
+    # youtube image link:
+    # http://img.youtube.com/vi/<insert-youtube-video-id-here>/0.jpg
+
     # todo: implement
-    return render(request, 'pitchify/investor_pitch.html', {'pitch_id': pitch_id})
+    return render(request, 'pitchify/investor_pitch.html', context)

@@ -1,0 +1,43 @@
+.indexInfo {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    min-height: 900px;
+    background-size: cover;
+}
+
+.block {
+    display: block;
+}
+
+.center {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.div-margined {
+    margin-top: 20px;
+}
+
+#main-container {
+    width: 600px;
+    max-width: 600px;
+}
+
+.text {
+    color: #eeeeee;
+}
+
+.progressbar-container {
+    width: 400px;
+}
+
+#stocks {
+    margin-bottom: 15px;
+}
+
+#description {
+    text-align: justify;
+    display: inline-block;
+}

@@ -5,9 +5,33 @@
 {% block title %}My Pitches{% endblock %}
 
 {% block styles %}
-
+    <link href="{% static 'css/investor_pitch.css' %} " rel="stylesheet">
 {% endblock %}
 
 {% block body_block %}
-    Single pitch for the investor placeholder: {{ pitch_id }}
+    <div class="indexInfo">
+        <div class="container" id="main-container">
+            <div>
+                <iframe class="block center" width="560" height="315" src="https://www.youtube.com/embed/{{ pitch.youtube_video_id }}" frameborder="0" allowfullscreen></iframe>
+            </div>
+                <div class="div-margined" style="display: table; width: 100%;">
+                <div style="display: table-cell; vertical-align: middle;">
+                    <span class="text" style="">{{ pitch.company.user.username }}</span>
+                </div>
+
+                <div class="pull-right progressbar-container" style="display: table-cell;">
+                    <div class="text" id="stocks">{{ pitch.sold_stocks }} / {{ pitch.total_stocks}} stocks bought</div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width:{{ percentage_claimed }}%">
+                            {{ percentage_claimed }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="div-margined">
+                <span class="text" id="#description">{{ pitch.description }}</span>
+            </div>
+
+        </div>
+    </div>
 {% endblock %}
