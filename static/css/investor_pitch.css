@@ -34,23 +34,38 @@
     vertical-align: top;
 }
 
-.block {
-    display: block;
-}
-
 .center {
     float: none;
     margin-left: auto;
     margin-right: auto;
 }
 
-.div-margined {
-    margin-top: 20px;
+.top-pitch {
+    padding-left: 10px;
+    text-align: left;
+}
+
+#pitch-main {
+    display: table-cell;
+    width: 600px;
+}
+
+#description {
+    text-align: justify;
+    display: inline-block;
 }
 
 #main-container {
     width: 900px;
     max-width: 900px;
+}
+
+.block {
+    display: block;
+}
+
+.div-margined {
+    margin-top: 20px;
 }
 
 .text {
@@ -63,11 +78,6 @@
 
 #stocks {
     margin-bottom: 15px;
-}
-
-#description {
-    text-align: justify;
-    display: inline-block;
 }
 
 .display-cell {
@@ -94,20 +104,10 @@
     vertical-align: middle;
 }
 
-#pitch-main {
-    display: table-cell;
-    width: 600px;
-}
-
 .text-left {
     text-align: left;
 }
 
 .float-right {
     float: right;
-}
-
-.top-pitch {
-    padding-left: 10px;
-    text-align: left;
 }

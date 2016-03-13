@@ -49,23 +49,65 @@
                             </div>
 
                             <div class="div-margined">
-                                {% for offer in offers %}
-                                    <div id="offer_{{ offer.id }}" class="alert alert-{% if offer.status == offer.PENDING %}info{% elif offer.status == Offer.ACCEPTED %}success{% else %}danger{% endif %}">
-                                        <div class="text-left">
-                                            <div class="full-width ">
-                                                <p>
-                                                    <span> {{ offer.stock_count }} stocks for {{ offer.price }}£</span>
-                                                    <span class="float-right">{{ Offer.STATUS_CHOICES|get_offer_status:offer.status }}{% if offer.status == offer.PENDING %} <a href="#" onClick="removeOffer({{ offer.id }})">(Delete)</a>{% endif %}</span>
-                                                </p>
+                                <div id="your_offers_success" class="alert alert-success alert-dismissable" style="display: none;">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    Offer successfully submitted
+                                </div>
+                                <div id="your_offers">
+                                <h3 class="text">Make an offer</h3>
+                                <hr/>
+                                    <div class="form-horizontal">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2 text" for="stocks_offer">Stocks:</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="stocks_offer" type="number" min="1" max="{{ pitch.stocks_left }}">
                                             </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2 text" for="stocks_price">Price:</label>
+                                            <div class="col-sm-10">
+                                                <input class="form-control" id="stocks_price" type="number" min="1" max="{{ pitch.price_per_stock }}" placeholder="{{ pitch.price_per_stock }}">
+                                            </div>
+                                        </div>
 
-                                            <p>{{ offer.message }}</p>
-                                            {% if offer.status != offer.PENDING %}
-                                                <p>Answer: {{ offer.answer }}</p>
-                                            {% endif %}
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-2 text" for="stocks_message">Message:</label>
+                                            <div class="col-sm-10">
+                                                <textarea id="stocks_message" class="form-control" placeholder="Your message"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input class="btn btn-info" type="submit" value="Offer!" id="offerSubmit" />
                                         </div>
                                     </div>
-                                {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="div-margined">
+                                {% if offers %}
+                                    <h3 class="text">Your offers</h3>
+                                    <hr/>
+                                {% endif %}
+                                <div id="offers">
+                                    {% for offer in offers %}
+                                        <div id="offer_{{ offer.id }}" class="alert alert-{% if offer.status == offer.PENDING %}info{% elif offer.status == Offer.ACCEPTED %}success{% else %}danger{% endif %}">
+                                            <div class="text-left">
+                                                <div class="full-width ">
+                                                    <p>
+                                                        <span> {{ offer.stock_count }} stocks for {{ offer.price }}£</span>
+                                                        <span class="float-right">{{ Offer.STATUS_CHOICES|get_offer_status:offer.status }}{% if offer.status == offer.PENDING %} <a href="#" onClick="removeOffer({{ offer.id }})">(Delete)</a>{% endif %}</span>
+                                                    </p>
+                                                </div>
+
+                                                <p>{{ offer.message }}</p>
+                                                {% if offer.status != offer.PENDING %}
+                                                    <p>Answer: {{ offer.answer }}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                     </div>
