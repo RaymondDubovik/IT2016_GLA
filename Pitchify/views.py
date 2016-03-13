@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 
 from pitchify.forms import *
@@ -293,3 +293,21 @@ def investor_pitch(request, pitch_id):
     context['offers'] = offers
 
     return render(request, 'pitchify/investor_pitch.html', context)
+
+
+def investor_remove_offer(request, offer_id):
+    try:
+        offer = Offer.objects.get(id=offer_id)
+    except:
+        return JsonResponse({'success': False})
+
+    # TODO: replace with meaningful user!!!
+    user = User.objects.get(id=24)
+    investor = Investor.objects.get(user=user)
+    if offer.investor != investor or offer.status != Offer.PENDING:
+        # TODO: fail here!!!!!
+        pass;
+
+
+    offer.delete()
+    return JsonResponse({'success': True})
