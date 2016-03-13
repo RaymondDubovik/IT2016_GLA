@@ -64,10 +64,6 @@ $( document ).ready(function() {
     })
 });
 
-/*
-
-*/
-
 
 function removeOffer(id) {
     BootstrapDialog.show({

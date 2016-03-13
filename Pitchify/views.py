@@ -260,6 +260,7 @@ def my_pitches(request):
     return render(request, 'pitchify/my_pitches.html', {'context': context})
 
 
+# TODO: check for the user
 def investor_pitches(request):
     pitches = Pitch.objects.order_by('-created')
 
@@ -271,6 +272,15 @@ def investor_pitches(request):
 
     context = {'pitches': pitches,}
     return render(request, 'pitchify/investor_pitches.html', context)
+
+
+def investor_offers(request):
+    # TODO: replace with meaningful user!!!
+    user = User.objects.get(id=24)
+    investor = Investor.objects.get(user=user)
+    offers = Offer.objects.filter(investor=investor).order_by('-status')
+
+    return render(request, 'pitchify/investor_offers.html', {'offers': offers})
 
 
 def investor_pitch(request, pitch_id):
