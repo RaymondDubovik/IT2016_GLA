@@ -7,3 +7,15 @@ body {
 .form .form-control {
     margin-bottom: 10px;
 }
+
+.full-width {
+    width: 100%
+}
+
+.text-left {
+    text-align: left;
+}
+
+.float-right {
+    float: right;
+}

@@ -6,38 +6,15 @@
 {% block title %}My Pitches{% endblock %}
 
 {% block styles %}
-    <link href="{% static 'css/bootstrap-dialog.css' %} " rel="stylesheet">
+    <link href="{% static 'css/investor_offers.css' %} " rel="stylesheet">
 {% endblock %}
-
-
-{% block scripts %}
-{% endblock %}
-
 
 {% block body_block %}
     <div class="indexInfo">
-    {% if not offers %}
-        <div id="your_offers_success" class="alert alert-warning">
-            You con't have any offers. <a href="{% url 'pitchify:investor_pitches' %}">Browse pitches</a> to make an offer.
+        <div class="container" id="main-container">
+            {% block offers %}
+
+            {% endblock %}
         </div>
-    {% else %}
-        {% for offer in offers %}
-            <div id="offer_{{ offer.id }}" class="alert alert-{% if offer.status == offer.PENDING %}info{% elif offer.status == Offer.ACCEPTED %}success{% else %}danger{% endif %}">
-                <div class="text-left">
-                    <div class="full-width ">
-                        <p>
-                            <span> {{ offer.stock_count }} stocks for {{ offer.price }}£</span>
-                            <span class="float-right">{{ Offer.STATUS_CHOICES|get_offer_status:offer.status }}{% if offer.status == offer.PENDING %} <a href="#" onClick="removeOffer({{ offer.id }})">(Delete)</a>{% endif %}</span>
-                        </p>
-                    </div>
-
-                    <p>{{ offer.message }}</p>
-                    {% if offer.status != offer.PENDING %}
-                        <p>Answer: {{ offer.answer }}</p>
-                    {% endif %}
-                </div>
-            </div>
-        {% endfor %}
-    {% endif %}
-
+    </div>
 {% endblock %}

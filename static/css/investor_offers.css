@@ -1,0 +1,12 @@
+.indexInfo {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    min-height: 900px;
+    background-size: cover;
+}
+
+#main-container {
+     width: 600px;
+     min-width: 600px;
+ }

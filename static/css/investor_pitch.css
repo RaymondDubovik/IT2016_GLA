@@ -13,27 +13,6 @@
     vertical-align: top;
 }
 
-#top-pitches {
-    display: table-cell;
-    padding-left: 20px;
-    width: 300px;
-    vertical-align: top;
-}
-
-#top-pitches {
-    display: table-cell;
-    padding-left: 20px;
-    width: 300px;
-    vertical-align: top;
-}
-
-#top-pitches {
-    display: table-cell;
-    padding-left: 20px;
-    width: 300px;
-    vertical-align: top;
-}
-
 .center {
     float: none;
     margin-left: auto;
@@ -96,18 +75,6 @@
     width: 75px;
 }
 
-.full-width {
-    width: 100%
-}
-
 .vertical-middle {
     vertical-align: middle;
-}
-
-.text-left {
-    text-align: left;
-}
-
-.float-right {
-    float: right;
 }
