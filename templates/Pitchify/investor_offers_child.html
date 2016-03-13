@@ -20,7 +20,7 @@
 
 {% block offers %}
     {% if not offers %}
-        {% if hide and not hide %}
+        {% if hide != None and hide == False %}
             <div id="your_offers_success" class="alert alert-warning">
                 You don't have any offers. <a href="{% url 'pitchify:investor_pitches' %}">Browse pitches</a> to make an offer.
             </div>
