@@ -313,16 +313,14 @@ def investor_remove_offer(request, offer_id):
 
 
 def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, offer_message):
-    offer_stock_count = int(offer_stock_count)
-    offer_stock_price = int(offer_stock_price)
     try:
         pitch = Pitch.objects.get(id=pitch_id)
     except:
         return JsonResponse({'success': False, 'message': "Pitch does not exist"})
 
-    print offer_stock_count
-    print pitch.stocks_left
-    print pitch.stocks_left < offer_stock_count
+    offer_stock_count = int(offer_stock_count)
+    offer_stock_price = int(offer_stock_price)
+
     if pitch.stocks_left < offer_stock_count:
         return JsonResponse({'success': False, 'message': "Sorry, there are only " + str(pitch.stocks_left) + " stocks left"})
 
