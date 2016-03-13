@@ -308,6 +308,36 @@ def investor_remove_offer(request, offer_id):
         # TODO: fail here!!!!!
         pass;
 
-
     offer.delete()
     return JsonResponse({'success': True})
+
+
+def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, offer_message):
+    offer_stock_count = int(offer_stock_count)
+    offer_stock_price = int(offer_stock_price)
+    try:
+        pitch = Pitch.objects.get(id=pitch_id)
+    except:
+        return JsonResponse({'success': False, 'message': "Pitch does not exist"})
+
+    print offer_stock_count
+    print pitch.stocks_left
+    print pitch.stocks_left < offer_stock_count
+    if pitch.stocks_left < offer_stock_count:
+        return JsonResponse({'success': False, 'message': "Sorry, there are only " + str(pitch.stocks_left) + " stocks left"})
+
+    if offer_stock_price <= 0:
+        return JsonResponse({'success': False, 'message': "Invalid stock count"})
+
+    # TODO: replace with meaningful user!!!
+    user = User.objects.get(id=24)
+    investor = Investor.objects.get(user=user)
+
+    offer, created = Offer.objects.get_or_create(
+            pitch=pitch,
+            investor=investor,
+            stock_count=offer_stock_count,
+            price=offer_stock_price,
+            message=offer_message,)
+
+    return JsonResponse({'success': True, 'id': offer.id})

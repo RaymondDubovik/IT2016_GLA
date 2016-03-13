@@ -14,6 +14,9 @@
 {% block scripts %}
     <script src="{% static 'js/bootstrap-dialog.js' %} "></script>
     <script src="{% static 'js/investor_pitch.js' %} "></script>
+    <script>
+        var pitchId = {{ pitch.id }};
+    </script>
 {% endblock %}
 
 
