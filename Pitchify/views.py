@@ -44,9 +44,10 @@ def index(request):
         if user_type == USER_TYPE_COMPANY:
             company = Company.objects.get(user=request.user)
             top_five_selling_pitches = Pitch.objects.filter(company=company).order_by('-sold_stocks')
-            return render(request,
-                          'pitchify/index.html',
-                          {'context': context, "top_five_selling_pitches": top_five_selling_pitches})
+            context['my_pitches'] = top_five_selling_pitches
+            context['ext_template'] = 'pitchify/index.html'
+            return render(request, 'pitchify/my_pitches_child.html', {'context': context})
+
         if user_type == USER_TYPE_INVESTOR:
             return render(request,
                           'pitchify/index.html',
@@ -263,8 +264,9 @@ def my_pitches(request):
     pitches_for_company = Pitch.objects.filter(company=company)
 
     context['my_pitches'] = pitches_for_company
+    context['ext_template'] = 'pitchify/my_pitches.html'
 
-    return render(request, 'pitchify/my_pitches.html', {'context': context})
+    return render(request, 'pitchify/my_pitches_child.html', {'context': context})
 
 
 @login_required
