@@ -110,15 +110,18 @@
                 {% block top_pitches %}
                     <div id="top-pitches">
                         <div><h3 class="text">Top pitches</h3></div>
+                        <hr>
                         {% for pitch in top_pitches %}
                             <div class="div-margined display-table">
-                                <div class="display-cell">
-                                    <img class="pitch-image" src="http://img.youtube.com/vi/{{ pitch.youtube_video_id }}/0.jpg" />
-                                </div>
-                                <div class="text display-cell vertical-top top-pitch">
-                                    <div>{{ pitch.title }}</div>
-                                    <div>Invested {{ pitch.invested }}£</div>
-                                </div>
+                                <a href="{% url 'pitchify:pitch' pitch.id %}">
+                                    <div class="display-cell">
+                                        <img class="pitch-image" src="http://img.youtube.com/vi/{{ pitch.youtube_video_id }}/0.jpg" />
+                                    </div>
+                                    <div class="text display-cell vertical-top top-pitch">
+                                        <div>{{ pitch.title }}</div>
+                                        <div>Invested {{ pitch.invested }}£</div>
+                                    </div>
+                                </a>
                             </div>
                         {% endfor %}
                     </div>
