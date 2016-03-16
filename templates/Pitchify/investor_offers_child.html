@@ -27,7 +27,7 @@
         {% endif %}
     {% else %}
         {% for offer in offers %}
-            <div id="offer_{{ offer.id }}" class="alert alert-{% if offer.status == offer.PENDING %}info{% elif offer.status == Offer.ACCEPTED %}success{% else %}danger{% endif %}">
+            <div id="offer_{{ offer.id }}" class="alert alert-{% if offer.status == offer.PENDING %}info{% elif offer.status == offer.ACCEPTED %}success{% else %}danger{% endif %}">
                 <div class="text-left">
                     <div class="full-width ">
                         <p>

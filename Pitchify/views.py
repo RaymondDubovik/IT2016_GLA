@@ -246,6 +246,7 @@ def create_pitch(request):
     context = {'type': user_type}
     return render(request, 'pitchify/create_pitch.html', {'pitch_form': pitch_form, 'context': context})
 
+
 # @user_passes_test(lambda u: u.is_superuser)
 @login_required
 def my_pitches(request):
@@ -280,8 +281,7 @@ def investor_pitches(request):
 
 @login_required
 def investor_offers(request):
-    # TODO: replace with meaningful user!!!
-    user = User.objects.get(id=24)
+    user = request.user
     investor = Investor.objects.get(user=user)
     offers = Offer.objects.filter(investor=investor).order_by('-status')
 
@@ -301,10 +301,9 @@ def investor_pitch(request, pitch_id):
     context = {'pitch': pitch, 'pitch_id': pitch_id, 'Offer': Offer, 'ext_template': 'pitchify/investor_pitch.html',
                'hide': True}
     context['percentage_claimed'] = pitch.sold_stocks * 100 / pitch.total_stocks
-    context['top_pitches'] = Pitch.objects.order_by("-sold_stocks")[:10]
+    context['top_pitches'] = Pitch.objects.order_by("-sold_stocks")[:10]  # retrieve only top 10 pitches
 
-    # TODO: replace with meaningful user!!!
-    user = User.objects.get(id=24)
+    user = request.user
     investor = Investor.objects.get(user=user)
     offers = Offer.objects.filter(investor=investor, pitch=pitch).order_by('status')
     context['offers'] = offers
@@ -314,17 +313,18 @@ def investor_pitch(request, pitch_id):
 
 @login_required
 def investor_remove_offer(request, offer_id):
+    if get_user_type(request) != 'I':
+        return JsonResponse({'success': False, 'message': "You can not remove this offer"})
+
     try:
         offer = Offer.objects.get(id=offer_id)
     except:
         return JsonResponse({'success': False})
 
-    # TODO: replace with meaningful user!!!
-    user = User.objects.get(id=24)
+    user = request.user
     investor = Investor.objects.get(user=user)
     if offer.investor != investor or offer.status != Offer.PENDING:
-        # TODO: fail here!!!!!
-        pass;
+        return JsonResponse({'success': False, 'message': "You can not remove this offer"})
 
     offer.delete()
     return JsonResponse({'success': True})
@@ -332,6 +332,9 @@ def investor_remove_offer(request, offer_id):
 
 @login_required
 def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, offer_message):
+    if get_user_type(request) != 'I':
+        return JsonResponse({'success': False, 'message': "You can not add an offer"})
+
     try:
         pitch = Pitch.objects.get(id=pitch_id)
     except:
@@ -341,13 +344,13 @@ def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, 
     offer_stock_price = int(offer_stock_price)
 
     if pitch.stocks_left < offer_stock_count:
-        return JsonResponse({'success': False, 'message': "Sorry, there are only " + str(pitch.stocks_left) + " stocks left"})
+        return JsonResponse({'success': False, 'message': "Sorry, there are only " + str(pitch.stocks_left) +
+                                                          " stocks left"})
 
     if offer_stock_price <= 0:
         return JsonResponse({'success': False, 'message': "Invalid stock count"})
 
-    # TODO: replace with meaningful user!!!
-    user = User.objects.get(id=24)
+    user = request.user
     investor = Investor.objects.get(user=user)
 
     offer, created = Offer.objects.get_or_create(
@@ -362,4 +365,4 @@ def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, 
 
 @login_required
 def profile(request):
-    return JsonResponse({'success':True})
+    return JsonResponse({'success': True})
