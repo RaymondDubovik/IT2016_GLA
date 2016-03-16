@@ -303,7 +303,7 @@ def investor_offers(request):
 
     user = request.user
     investor = Investor.objects.get(user=user)
-    offers = Offer.objects.filter(investor=investor).order_by('-status')
+    offers = Offer.objects.filter(investor=investor).order_by('status')
 
     context['offers'] = offers
     context['ext_template'] = 'pitchify/investor_offers.html'

@@ -3,6 +3,7 @@ from django.db import models
 from django.template.defaulttags import register
 from django.utils.timezone import now
 
+
 class Company(models.Model):
     # This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
@@ -33,7 +34,6 @@ class Pitch(models.Model):  # foreign company
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, default=now)
     total_stocks = models.IntegerField()
-    sold_stocks = models.IntegerField(default=0)
     price_per_stock = models.IntegerField()
     youtube_video_id = models.CharField(null=True, blank=True, max_length=50)
 
@@ -42,7 +42,17 @@ class Pitch(models.Model):  # foreign company
 
     @property
     def percentage_sold(self):
-        return (self.sold_stocks * 100)/self.total_stocks
+        return (self.sold_stocks * 100) / self.total_stocks
+
+    @property
+    def sold_stocks(self):
+        sold_stocks = 0
+        offers = Offer.objects.filter(pitch=self)
+        for offer in offers:
+            if offer.status == Offer.ACCEPTED:
+                sold_stocks += offer.stock_count
+
+        return sold_stocks
 
     @property
     def stocks_left(self):
@@ -56,7 +66,6 @@ class Pitch(models.Model):  # foreign company
             if offer.status == Offer.ACCEPTED:
                 invested += (offer.price * offer.stock_count)
 
-        #return self.sold_stocks * self.price_per_stock
         return invested
 
 

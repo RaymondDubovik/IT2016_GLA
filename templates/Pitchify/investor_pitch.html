@@ -35,12 +35,13 @@
                                 </div>
 
                                 <div class="pull-right progressbar-container display-table">
-                                    <div class="text" id="stocks">{{ pitch.sold_stocks }} / {{ pitch.total_stocks}} stocks bought</div>
+                                    <div class="text" id="stocks">{{ pitch.sold_stocks }} / {{ pitch.total_stocks}} stocks bought. Price per stock: {{ pitch.price_per_stock }}£</div>
                                     <div class="progress">
                                         <div class="progress-bar" role="progressbar" style="width:{{ percentage_claimed }}%">
                                             {{ percentage_claimed }}%
                                         </div>
                                     </div>
+                                    <div class="text">Invested: {{ pitch.invested }}£</div>
                                 </div>
                             </div>
 
@@ -67,7 +68,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-sm-2 text" for="stocks_price">Price:</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" id="stocks_price" type="number" min="1" max="{{ pitch.price_per_stock }}" placeholder="Original price: {{ pitch.price_per_stock }}">
+                                                    <input class="form-control" id="stocks_price" type="number" min="1" max="{{ pitch.price_per_stock }}" placeholder="Original price per stock: {{ pitch.price_per_stock }}">
                                                 </div>
                                             </div>
 
