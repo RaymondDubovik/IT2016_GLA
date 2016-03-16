@@ -32,9 +32,9 @@ class Pitch(models.Model):  # foreign company
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, default=now)
-    total_stocks = models.IntegerField()
+    total_stocks = models.PositiveIntegerField()
     sold_stocks = models.IntegerField(default=0)
-    price_per_stock = models.IntegerField()
+    price_per_stock = models.PositiveIntegerField()
     youtube_video_id = models.CharField(null=True, blank=True, max_length=50)
 
     def __unicode__(self):
@@ -76,8 +76,8 @@ class Offer(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=PENDING)
     message = models.TextField(null=True, blank=True)
     answer = models.TextField(null=True, blank=True)
-    stock_count = models.IntegerField()
-    price = models.IntegerField()
+    stock_count = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()
     seen = models.BooleanField(default=False)
 
     def __unicode__(self):
