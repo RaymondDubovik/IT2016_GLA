@@ -10,22 +10,24 @@ from pitchify.populate import Population
 
 from django.contrib.auth.decorators import user_passes_test
 
+USER_TYPE_COMPANY = 'C'
+USER_TYPE_INVESTOR = 'I'
+
 MAX_DESCRIPTION_LENGTH = 100
 
 
-# TODO: refactor. logic belongs to the model. also, should be static
 def get_user_type(request):
     type = ''
     try:
         u = User.objects.get(username=request.user.username)
         try:
             Company.objects.get(user=u)
-            type = 'C'
+            type = USER_TYPE_COMPANY
         except:
             pass
         try:
             Investor.objects.get(user=u)
-            type = 'I'
+            type = USER_TYPE_INVESTOR
         except:
             pass
     except:
@@ -39,13 +41,13 @@ def index(request):
 
     context = {'type': user_type}
     if request.user.is_authenticated():
-        if user_type == 'C':
+        if user_type == USER_TYPE_COMPANY:
             company = Company.objects.get(user=request.user)
             top_five_selling_pitches = Pitch.objects.filter(company=company).order_by('-sold_stocks')
             return render(request,
                           'pitchify/index.html',
                           {'context': context, "top_five_selling_pitches": top_five_selling_pitches})
-        if user_type == 'I':
+        if user_type == USER_TYPE_INVESTOR:
             return render(request,
                           'pitchify/index.html',
                           {'context': context} )
@@ -95,7 +97,7 @@ def register(request):
             user_type = user_form.cleaned_data['type']
 
             # Save the user's form data to the database.
-            if user_type == 'C' and company_form.is_valid():
+            if user_type == USER_TYPE_COMPANY and company_form.is_valid():
                 user = user_form.save()
 
                 # Now we hash the password with the set_password method.
@@ -117,7 +119,7 @@ def register(request):
 
                 # Update our variable to tell the template registration was successful.
                 registered = True
-            elif user_type == 'I' and investor_form.is_valid():
+            elif user_type == USER_TYPE_INVESTOR and investor_form.is_valid():
                 user = user_form.save()
 
                 # Now we hash the password with the set_password method.
@@ -267,60 +269,69 @@ def my_pitches(request):
 
 @login_required
 def investor_pitches(request):
-    pitches = Pitch.objects.order_by('-created')
+    context = {}
+    user_type = get_user_type(request)
+    context['type'] = user_type
 
-    # loop through all pitches the pitches
-    for pitch in pitches:
+    pitches = Pitch.objects.order_by('-created')
+    for pitch in pitches: # loop through all pitches the pitches
         # if description is too long, truncate it and append 3 dots at the end
         if len(pitch.description) > MAX_DESCRIPTION_LENGTH:
             pitch.description = pitch.description[:MAX_DESCRIPTION_LENGTH] + '...'
 
-    context = {'pitches': pitches,}
+    context['pitches'] = pitches
+
     return render(request, 'pitchify/investor_pitches.html', context)
 
 
 @login_required
 def investor_offers(request):
+    context = {}
+    user_type = get_user_type(request)
+    context['type'] = user_type
+
     user = request.user
     investor = Investor.objects.get(user=user)
     offers = Offer.objects.filter(investor=investor).order_by('-status')
 
-    return render(request, 'pitchify/investor_offers_child.html', {'offers': offers, 'ext_template': 'pitchify/investor_offers.html', 'hide': False})
+    context['offers'] = offers
+    context['ext_template'] = 'pitchify/investor_offers.html'
+    context['hide'] = False
+
+    return render(request, 'pitchify/investor_offers_child.html', context)
 
 
 @login_required
 def pitch(request, pitch_id):
+    context = {}
+    user_type = get_user_type(request)
+    context['type'] = user_type
+
     try:
-        print pitch_id
         pitch = Pitch.objects.get(id=pitch_id)
-        print "here"
     except: # pitch does not exist
-        print "here2"
         return render(request, 'pitchify/error.html',
                       {'error_message': "Could not find a pitch!",
                        'return_message': 'Browse pitches',
                        'return_url': 'pitchify:investor_pitches',})
 
-    context = {'pitch': pitch, 'pitch_id': pitch_id, 'Offer': Offer, 'ext_template': 'pitchify/investor_pitch.html',
-               'hide': True}
+    context['pitch'] = pitch
+    context['pitch_id'] = pitch_id
+    context['Offer'] = Offer
+    context['ext_template'] = 'pitchify/investor_pitch.html'
+    context['hide'] = True
     context['percentage_claimed'] = pitch.sold_stocks * 100 / pitch.total_stocks
     context['top_pitches'] = Pitch.objects.order_by("-sold_stocks")[:10]  # retrieve only top 10 pitches
 
     user = request.user
-    user_type = get_user_type(request)
-    context['type'] = user_type
-
-    if user_type == 'I':
+    if user_type == USER_TYPE_INVESTOR:
         investor = Investor.objects.get(user=user)
         offers = Offer.objects.filter(investor=investor, pitch=pitch).order_by('status')
         context['offers'] = offers
         return render(request, 'pitchify/investor_offers_child.html', context)
 
-
-    # verify, that the company owns the pitch
     company = Company.objects.get(user=user)
-
-    if company != pitch.company:
+    if company != pitch.company: # verifies, that the company owns the pitch
         # TODO: company not allowed to view this pitch
         return render(request, 'pitchify/error.html',
                       {'error_message': "Sorry it is not your pitch!",
@@ -330,10 +341,6 @@ def pitch(request, pitch_id):
     offers = Offer.objects.filter(pitch=pitch).order_by('status')
     context['offers'] = offers
     return render(request, 'pitchify/company_offers_child.html', context)
-
-
-
-
 
 
 @login_required
@@ -354,7 +361,7 @@ def investor_remove_offer(request, offer_id):
 
 @login_required
 def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, offer_message):
-    if get_user_type(request) != 'I':
+    if get_user_type(request) != USER_TYPE_INVESTOR:
         return JsonResponse({'success': False, 'message': "You can not add an offer"})
 
     try:
@@ -393,10 +400,10 @@ def profile(request, user_id):
 
     context['type'] = user_type
 
-    if user_type == 'C':
+    if user_type == USER_TYPE_COMPANY:
         company = Company.objects.get(user_id=user_id)
         context['description'] = company.description
-    elif user_type == 'I':
+    elif user_type == USER_TYPE_INVESTOR:
         investor = Investor.objects.get(user_id=user_id)
         context['website'] = investor.website
 
