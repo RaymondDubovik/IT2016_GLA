@@ -41,11 +41,11 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     {#            <h2>you are registered as {{ type }}</h2>#}
-                    {% if context.type == 'C' %}
+                    {% if type == 'C' %}
                         <li><a href="{% url 'pitchify:create_pitch' %}">Create Pitch</a></li>
                         <li><a href="{% url 'pitchify:my_pitches' %}">My Pitches</a></li>
                     {% endif %}
-                    {% if context.type == 'I' %}
+                    {% if type == 'I' %}
                         <li><a href="{% url 'pitchify:investor_pitches' %}">View Pitches</a></li>
                         <li><a href="{% url 'pitchify:investor_offers' %}">My Investments</a></li>
                     {% endif %}

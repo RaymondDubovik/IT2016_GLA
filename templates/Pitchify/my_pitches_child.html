@@ -1,4 +1,4 @@
-{% extends context.ext_template %}
+{% extends ext_template %}
 
 {% load staticfiles %}
 {% load app_filters %}
@@ -25,7 +25,7 @@
         </tr>
         </thead>
         <tbody class="table-body">
-        {% for pitch in context.my_pitches %}
+        {% for pitch in my_pitches %}
             <tr class="tr-clickable" data-progress="{{ pitch.percentage_sold }}">
                 <td class="text-center">
                     <div class="progress"></div>

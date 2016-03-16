@@ -46,12 +46,12 @@ def index(request):
             top_five_selling_pitches = Pitch.objects.filter(company=company).order_by('-sold_stocks')
             context['my_pitches'] = top_five_selling_pitches
             context['ext_template'] = 'pitchify/index.html'
-            return render(request, 'pitchify/my_pitches_child.html', {'context': context})
+            return render(request, 'pitchify/my_pitches_child.html', context)
 
         if user_type == USER_TYPE_INVESTOR:
             return render(request,
                           'pitchify/index.html',
-                          {'context': context} )
+                          context )
     else:
         # A boolean value for telling the template whether the registration was successful.
         # Set to False initially. Code changes value to True when registration succeeds.
@@ -61,11 +61,14 @@ def index(request):
         company_form = CompanyForm()
         investor_form = InvestorForm()
 
+        context['user_form'] = user_form
+        context['company_form'] = company_form
+        context['investor_form'] = investor_form
+
         # Render the template depending on the context.
         return render(request,
                       'pitchify/index.html',
-                      {'user_form': user_form, 'company_form': company_form,
-                       'investor_form': investor_form, 'context': context})
+                      context)
 
 
 def populate(request):
@@ -168,10 +171,13 @@ def register(request):
         investor_form = InvestorForm()
 
     # Render the template depending on the context.
+    context = {}
+    context['user_form'] = user_form
+    context['company_form'] = company_form
+    context['investor_form'] = investor_form
     return render(request,
                   'pitchify/index.html',
-                  {'user_form': user_form, 'company_form': company_form,
-                   'investor_form': investor_form})
+                  context)
 
 
 def user_login(request):
@@ -246,8 +252,11 @@ def create_pitch(request):
     pitch_form = PitchForm()
     # getting user type
     user_type = get_user_type(request)
-    context = {'type': user_type}
-    return render(request, 'pitchify/create_pitch.html', {'pitch_form': pitch_form, 'context': context})
+
+    context = {}
+    context['type'] = user_type
+    context['pitch_form'] = pitch_form
+    return render(request, 'pitchify/create_pitch.html', context)
 
 
 # @user_passes_test(lambda u: u.is_superuser)
@@ -266,7 +275,7 @@ def my_pitches(request):
     context['my_pitches'] = pitches_for_company
     context['ext_template'] = 'pitchify/my_pitches.html'
 
-    return render(request, 'pitchify/my_pitches_child.html', {'context': context})
+    return render(request, 'pitchify/my_pitches_child.html', context)
 
 
 @login_required
@@ -409,4 +418,4 @@ def profile(request, user_id):
         investor = Investor.objects.get(user_id=user_id)
         context['website'] = investor.website
 
-    return render(request, 'pitchify/profile.html', {'context': context})
+    return render(request, 'pitchify/profile.html', context)
