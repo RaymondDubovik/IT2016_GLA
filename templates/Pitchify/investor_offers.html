@@ -6,8 +6,16 @@
 {% block title %}My Pitches{% endblock %}
 
 {% block styles %}
+    {{ block.super }}
     <link href="{% static 'css/investor_offers.css' %} " rel="stylesheet">
 {% endblock %}
+
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/bootstrap-dialog.js' %} "></script>
+{% endblock %}
+
 
 {% block body_block %}
     <div class="indexInfo">

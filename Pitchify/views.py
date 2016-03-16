@@ -452,7 +452,7 @@ def company_accept_offer(request, offer_id, accept, offer_answer):
     offer.answer = offer_answer
     offer.save()
 
-    return JsonResponse({'success': True})
+    return JsonResponse({'success': True, 'soldStocks': offer.pitch.sold_stocks, 'invested': offer.pitch.invested})
 
 
 @login_required

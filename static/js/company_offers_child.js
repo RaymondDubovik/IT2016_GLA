@@ -2,7 +2,37 @@
  * Created by svchost on 13.03.2016.
  */
 
+var $edit = $('#edit');
+var $editSuccess = $('#edit-success');
+var $editYoutube = $('#edit-youtube');
+var $editDescription = $('#edit-description');
+var $youtubeIframe = $('#youtube-iframe');
+var $description = $('#description');
 
+$('#edit-btn').click(function (e) {
+    $edit.toggle(300);
+});
+
+function editPitch(id) {
+    var youtube = $editYoutube.val();
+    var description = $editDescription.val();
+
+    var url = '/pitchify/company/edit_pitch/' + id + '/' + encodeURIComponent(youtube) + '/' + encodeURIComponent(description) + '/';
+    $.get(url, function (json) {
+        if (json['success']) {
+            if (json['youtubeId']) {
+                var youtubeUrl = 'https://www.youtube.com/embed/' + json['youtubeId'];
+                $youtubeIframe.attr('src', youtubeUrl);
+            }
+
+            $description.html(description);
+            $edit.hide(300);
+            $editSuccess.show(300);
+        } else {
+            alert('no success');
+        }
+    });
+}
 
 function acceptOffer(id, accept) {
     var $textarea = $('#textarea_' + id);
@@ -21,11 +51,10 @@ function acceptOffer(id, accept) {
             }]
         });
 
-
         return;
     }
 
-    var url = '/pitchify/company/accept_offer/' + id +'/' + accept + '/' + answer + '/';
+    var url = '/pitchify/company/accept_offer/' + id + '/' + accept + '/' + answer + '/';
     var $offer = $('#offer_' + id);
 
     $.get(url, function (json) {

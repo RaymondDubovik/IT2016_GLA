@@ -13,40 +13,7 @@
 
 {% block scripts %}
     {{ block.super }}
-    <script src="{% static 'js/bootstrap-dialog.js' %} "></script>
-    <script src="{% static 'js/investor_offers_child.js' %} "></script>
     <script src="{% static 'js/company_offers_child.js' %} "></script>
-
-
-    <script>
-        var $edit = $('#edit');
-
-        $('#edit-btn').click(function(e) {
-            $edit.toggle(300);
-        });
-
-        function editPitch(id) {
-            var youtube = $('#edit-youtube').val();
-            var description = $('#edit-description').val();
-
-            var url = '/pitchify/company/edit_pitch/' + id + '/' + encodeURIComponent(youtube) + '/' + encodeURIComponent(description) + '/';
-            $.get(url, function (json) {
-                if (json['success']) {
-                    if (json['youtubeId']) {
-                        var youtubeUrl = 'https://www.youtube.com/embed/' + json['youtubeId'];
-                        $('#youtube-iframe').attr('src', youtubeUrl);
-                    }
-
-                    $('#description').html(description);
-                    $edit.hide(300);
-                    console.log($('#edit-success'));
-                    $('#edit-success').show(300);
-                } else {
-                    alert('no success');
-                }
-            });
-        }
-    </script>
 {% endblock %}
 
 
@@ -100,7 +67,7 @@
                 <div class="text-left">
                     <div class="full-width ">
                         <p>
-                            <span> {{ offer.stock_count }} stocks for {{ offer.price }}£</span>
+                            <span><a href="{% url 'pitchify:profile' offer.investor.user.id %}">{{ offer.investor.user.username }}:</a> {{ offer.stock_count }} stocks for {{ offer.price }}£</span>
                         </p>
                     </div>
 

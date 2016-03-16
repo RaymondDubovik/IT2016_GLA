@@ -2,7 +2,7 @@
  * Created by svchost on 13.03.2016.
  */
 
-$( document ).ready(function() {
+$(document).ready(function() {
     var $offerSubmit = $('#offerSubmit');
     var $stocksOffer = $('#stocks_offer');
     var $stocksPrice = $('#stocks_price');
