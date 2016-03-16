@@ -102,6 +102,7 @@ class Population:
 
     def add_investor(self, username, website_url="", picture=""):
         user, created = User.objects.get_or_create(username=username)
+        user.set_password(username)
         user.username = username
         user.save()
 
