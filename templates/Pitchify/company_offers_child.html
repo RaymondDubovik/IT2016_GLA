@@ -52,7 +52,7 @@
                             <label for="textarea_{{ offer.id }}">Answer:</label>
                             <textarea id="textarea_{{ offer.id }}" class="form-control"></textarea>
                         </div>
-                        <div class="div-margined">
+                        <div class="div-margined" id="buttons_{{ offer.id }}">
                             <button class="btn btn-success" onClick="acceptOffer({{ offer.id }}, true)">
                                 Accept offer
                             </button>

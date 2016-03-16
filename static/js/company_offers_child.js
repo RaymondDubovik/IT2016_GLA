@@ -25,6 +25,8 @@ function acceptOffer(id, accept) {
             $answer.empty().append(
                 $('<p />').html('Answer: ' + answer)
             );
+
+            $('#buttons_' + id).empty();
         } else {
             alert('Could not accept offer!')
         }

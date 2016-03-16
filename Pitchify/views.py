@@ -433,14 +433,13 @@ def company_accept_offer(request, offer_id, accept, offer_answer):
     if company != offer.pitch.company:  # verifies, that the company owns the offer
         return JsonResponse({'success': False})
 
-    # TODO: store it here!!!
-    '''
-    offer.status = Offer.ACCEPTED if accept == "true" else Offer.DECLINED
+    if accept == "true":
+        offer.pitch.sold_stocks += offer.stock_count
+        offer.status = Offer.ACCEPTED
+    else:
+        offer.status = Offer.DECLINED
+
     offer.answer = offer_answer
     offer.save()
-    '''
-
-
-    # TODO: when accepted, stocks sold should go up....
 
     return JsonResponse({'success': True})

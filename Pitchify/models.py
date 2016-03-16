@@ -50,7 +50,14 @@ class Pitch(models.Model):  # foreign company
 
     @property
     def invested(self):
-        return self.sold_stocks * self.price_per_stock
+        invested = 0
+        offers = Offer.objects.filter(pitch=self)
+        for offer in offers:
+            if offer.status == Offer.ACCEPTED:
+                invested += (offer.price * offer.stock_count)
+
+        #return self.sold_stocks * self.price_per_stock
+        return invested
 
 
 class Offer(models.Model):
