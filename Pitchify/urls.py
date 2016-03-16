@@ -15,6 +15,8 @@ urlpatterns = patterns(
     url(r'^my_pitches/$', views.my_pitches, name='my_pitches'),
     url(r'^company/accept_offer/(?P<offer_id>[0-9]+)/(?P<accept>[true|false]+)/(?P<offer_answer>.+)/$',
         views.company_accept_offer, name='company_accept_offer'),
+    url(r'^company/edit_pitch/(?P<pitch_id>[0-9]+)/(?P<youtube>.+)/(?P<description>.+)/$',
+        views.edit_pitch, name='edit_pitch'),
 
     # investors
     url(r'^investor/my_offers/$', views.investor_offers, name='investor_offers'),

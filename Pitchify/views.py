@@ -453,3 +453,24 @@ def company_accept_offer(request, offer_id, accept, offer_answer):
     offer.save()
 
     return JsonResponse({'success': True})
+
+
+@login_required
+def edit_pitch(request, pitch_id, youtube, description):
+    pitch = Pitch.objects.get(id=pitch_id)
+
+    user = request.user
+    company = Company.objects.get(user=user)
+    if company != pitch.company:  # verifies, that the company owns the pitch
+        return JsonResponse({'success': False, 'message': "This is not your pitch!"})
+
+    if youtube and 'youtube' in youtube:
+        # regex for the YouTube ID: "^[^v]+v=(.{11}).*"
+        result = re.match('^[^v]+v=(.{11}).*', youtube)
+        youtube = result.group(1)
+
+    pitch.youtube_video_id = youtube
+    pitch.description = description
+    pitch.save()
+
+    return JsonResponse({'success': True})
