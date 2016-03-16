@@ -46,8 +46,8 @@
                         <li><a href="{% url 'pitchify:my_pitches' %}">My Pitches</a></li>
                     {% endif %}
                     {% if context.type == 'I' %}
-                        <li><a href="">View Pitches</a></li>
-                        <li><a href="">My Investments</a></li>
+                        <li><a href="{% url 'pitchify:investor_pitches' %}">View Pitches</a></li>
+                        <li><a href="{% url 'pitchify:investor_offers' %}">My Investments</a></li>
                     {% endif %}
                     <li>a href="{% url 'pitchify:profile' %}">Profile</li>
                     <li><a href="{% url 'pitchify:logout' %}">Logout</a></li>
