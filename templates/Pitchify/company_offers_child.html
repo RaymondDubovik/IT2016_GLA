@@ -19,8 +19,10 @@
 
 
     <script>
+        var $edit = $('#edit');
+
         $('#edit-btn').click(function(e) {
-            $('#edit').show(300);
+            $edit.toggle(300);
         });
 
         function editPitch(id) {
@@ -30,7 +32,15 @@
             var url = '/pitchify/company/edit_pitch/' + id + '/' + encodeURIComponent(youtube) + '/' + encodeURIComponent(description) + '/';
             $.get(url, function (json) {
                 if (json['success']) {
-                    alert('success');
+                    if (json['youtubeId']) {
+                        var youtubeUrl = 'https://www.youtube.com/embed/' + json['youtubeId'];
+                        $('#youtube-iframe').attr('src', youtubeUrl);
+                    }
+
+                    $('#description').html(description);
+                    $edit.hide(300);
+                    console.log($('#edit-success'));
+                    $('#edit-success').show(300);
                 } else {
                     alert('no success');
                 }
@@ -51,8 +61,13 @@
 
 
 {% block edit %}
-<button class="btn btn-warning" id="edit-btn">Edit</button>
+<button class="btn btn-warning div-margined" id="edit-btn">Edit</button>
 <hr/>
+
+<div id="edit-success" class="alert alert-success alert-dismissable" style="display: none;">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    Successfully edited!
+</div>
 
 <div id="edit" style="display: none;">
     <div class="form-group">
@@ -94,6 +109,7 @@
                     {% if offer.status != offer.PENDING %}
                         <p>Answer: {{ offer.answer }}</p>
                     {% else %}
+
                         <div id="answer_{{ offer.id }}">
                             <label for="textarea_{{ offer.id }}">Answer:</label>
                             <textarea id="textarea_{{ offer.id }}" class="form-control"></textarea>

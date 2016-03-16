@@ -473,4 +473,4 @@ def edit_pitch(request, pitch_id, youtube, description):
     pitch.description = description
     pitch.save()
 
-    return JsonResponse({'success': True})
+    return JsonResponse({'success': True, 'youtubeId': youtube})
