@@ -305,21 +305,32 @@ def pitch(request, pitch_id):
 
     user = request.user
     user_type = get_user_type(request)
+    context['type'] = user_type
+
     if user_type == 'I':
         investor = Investor.objects.get(user=user)
         offers = Offer.objects.filter(investor=investor, pitch=pitch).order_by('status')
         context['offers'] = offers
-    elif user_type == 'C':
+        return render(request, 'pitchify/investor_offers_child.html', context)
 
-        # verify, that the company owns the pitch
-        company = Company.objects.get(user=user)
 
-        offers = Offer.objects.filter(pitch=pitch).order_by('status')
-        context['offers'] = offers
+    # verify, that the company owns the pitch
+    company = Company.objects.get(user=user)
 
-    context['type'] = user_type
+    if company != pitch.company:
+        # TODO: company not allowed to view this pitch
+        return render(request, 'pitchify/error.html',
+                      {'error_message': "Sorry it is not your pitch!",
+                       'return_message': 'Browse your pitches',
+                       'return_url': 'pitchify:my_pitches',})
 
+    offers = Offer.objects.filter(pitch=pitch).order_by('status')
+    context['offers'] = offers
     return render(request, 'pitchify/company_offers_child.html', context)
+
+
+
+
 
 
 @login_required
