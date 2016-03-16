@@ -21,15 +21,18 @@
                 </thead>
                 <tbody class="table-body">
                 {% for pitch in context.my_pitches %}
-                    <tr data-progress="{{ pitch.percentage_sold }}">
+                    <tr class="tr-clickable" data-progress="{{ pitch.percentage_sold }}">
                         <td class="text-center">
                             <div class="progress"></div>
-                            {{ pitch }}
+                            <span class="onTop">{{ pitch }}</span>
                         </td>
                         <td class="text-center">
-                            {{ pitch.sold_stocks }}
+                            <span class="onTop">{{ pitch.sold_stocks }}</span>
                         </td>
-                        <td class="text-center">{{ pitch.total_stocks }}</td>
+                        <td class="text-center">
+                            <span class="onTop">{{ pitch.total_stocks }}</span>
+                        </td>
+                        <td class="hidden"><a href="{% url 'pitchify:pitch' pitch.id %}">EDIT</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -40,4 +43,5 @@
 
 {% block scripts %}
     <script src="{% static 'js/my_pitches.js' %}"></script>
+    <script src="{% static 'js/investor_pitches.js' %}"></script>
 {% endblock %}

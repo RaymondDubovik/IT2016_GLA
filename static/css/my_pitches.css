@@ -15,11 +15,12 @@ table {
 tr, td {
     background: none;
     color: #eee;
-
+    cursor: pointer;
 }
 
-td {
+.onTop {
     z-index: 2;
+    position: relative;
 }
 
 .progress {
@@ -27,7 +28,7 @@ td {
     left: -100%;
     width: 100%;
     z-index: 1;
-    background: #b3d4ff;
+    background: #9bc4ff;
     transition: left 1s;
 }
 
