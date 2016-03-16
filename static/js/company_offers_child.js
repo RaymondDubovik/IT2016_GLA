@@ -21,7 +21,10 @@ function acceptOffer(id, accept) {
             }
 
             var $answer = $('#answer_' + id);
-            $answer.empty().append('<p>Answer: ' + answer + '</p>')
+
+            $answer.empty().append(
+                $('<p />').html('Answer: ' + answer)
+            );
         } else {
             alert('Could not accept offer!')
         }
