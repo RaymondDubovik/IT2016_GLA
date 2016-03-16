@@ -8,18 +8,19 @@ from pitchify.forms import *
 from pitchify.models import Company, Investor, Offer
 from pitchify.populate import Population
 
-from django.contrib.auth.decorators import user_passes_test
-
 USER_TYPE_COMPANY = 'C'
 USER_TYPE_INVESTOR = 'I'
 
 MAX_DESCRIPTION_LENGTH = 100
 
 
-def get_user_type(request):
+def get_user_type(request, user_id = 0):
+    if user_id == 0:
+        user_id = request.user.id
+
     type = ''
     try:
-        u = User.objects.get(username=request.user.username)
+        u = User.objects.get(id=user_id)
         try:
             Company.objects.get(user=u)
             type = USER_TYPE_COMPANY
@@ -413,10 +414,11 @@ def profile(request, user_id):
 
     context['type'] = user_type
 
-    if user_type == USER_TYPE_COMPANY:
+    type = get_user_type(request, user_id)
+    if type == USER_TYPE_COMPANY:
         company = Company.objects.get(user_id=user_id)
         context['description'] = company.description
-    elif user_type == USER_TYPE_INVESTOR:
+    elif type == USER_TYPE_INVESTOR:
         investor = Investor.objects.get(user_id=user_id)
         context['website'] = investor.website
 
@@ -428,15 +430,21 @@ def company_accept_offer(request, offer_id, accept, offer_answer):
     try:
         offer = Offer.objects.get(id=offer_id)
     except:
-        return JsonResponse({'success': False})
+        return JsonResponse({'success': False, 'message': "Offer does not exist!"})
 
     user = request.user
     company = Company.objects.get(user=user)
     if company != offer.pitch.company:  # verifies, that the company owns the offer
-        return JsonResponse({'success': False})
+        return JsonResponse({'success': False, 'message': "Offer is not for your pitch!"})
 
     if accept == "true":
-        offer.pitch.sold_stocks += offer.stock_count
+        new_stock_count = offer.pitch.sold_stocks + offer.stock_count
+        if new_stock_count > offer.pitch.total_stocks:
+            message = 'You can\'t accept this offer. You have only ' + str(offer.pitch.sold_stocks) + ' stocks left!'
+            return JsonResponse({'success': False, 'message': message})
+
+        offer.pitch.sold_stocks = new_stock_count
+        offer.pitch.save()
         offer.status = Offer.ACCEPTED
     else:
         offer.status = Offer.DECLINED

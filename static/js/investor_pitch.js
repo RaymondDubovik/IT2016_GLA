@@ -58,7 +58,17 @@ $( document ).ready(function() {
                     '</div>'
                 );
            } else {
-                alert('Could not add offer: ' + json.error)
+                BootstrapDialog.show({
+                    message: 'Could not add offer: ' + json['message'],
+                    buttons: [{
+                        label: 'OK',
+                        cssClass: 'btn-danger',
+                        action: function (thisDialog) {
+                            thisDialog.close();
+                        }
+                    }]
+                });
+
            }
         });
     })

@@ -5,9 +5,27 @@
 
 
 function acceptOffer(id, accept) {
-    var answer = $('#textarea_' + id).val();
-    var url = '/pitchify/company/accept_offer/' + id +'/' + accept + '/' + answer + '/';
+    var $textarea = $('#textarea_' + id);
+    var answer = $textarea.val();
 
+    if (answer.length <= 0) {
+        BootstrapDialog.show({
+            message: "Please, fill in the answer!",
+            buttons: [{
+                cssClass: 'btn-danger',
+                label: 'OK',
+                action: function (thisDialog) {
+                    thisDialog.close();
+                    $textarea.focus();
+                }
+            }]
+        });
+
+
+        return;
+    }
+
+    var url = '/pitchify/company/accept_offer/' + id +'/' + accept + '/' + answer + '/';
     var $offer = $('#offer_' + id);
 
     $.get(url, function (json) {
@@ -28,7 +46,16 @@ function acceptOffer(id, accept) {
 
             $('#buttons_' + id).empty();
         } else {
-            alert('Could not accept offer!')
+            BootstrapDialog.show({
+                message: json['message'],
+                buttons: [{
+                    cssClass: 'btn-danger',
+                    label: 'OK',
+                    action: function (thisDialog) {
+                        thisDialog.close();
+                    }
+                }]
+            });
         }
     });
 

@@ -31,7 +31,7 @@
 
                             <div class="div-margined display-table full-width">
                                 <div class="display-cell vertical-middle">
-                                    <span class="text" style="">{{ pitch.company.user.username }}</span>
+                                    <a href="{% url 'pitchify:profile' pitch.company.user.id %}" class="text">{{ pitch.company.user.username }}</a>
                                 </div>
 
                                 <div class="pull-right progressbar-container display-table">
