@@ -49,6 +49,7 @@
                         <li><a href="">View Pitches</a></li>
                         <li><a href="">My Investments</a></li>
                     {% endif %}
+                    <li>a href="{% url 'pitchify:profile' %}">Profile</li>
                     <li><a href="{% url 'pitchify:logout' %}">Logout</a></li>
                 {% else %}
                     <form class="navbar-form navbar-right" method="post" action="{% url 'pitchify:login'%}">

@@ -45,6 +45,10 @@ def index(request):
             return render(request,
                           'pitchify/index.html',
                           {'context': context, "top_five_selling_pitches": top_five_selling_pitches})
+        if user_type == 'I':
+            return render(request,
+                          'pitchify/index.html',
+                          {'context': context} )
     else:
         # A boolean value for telling the template whether the registration was successful.
         # Set to False initially. Code changes value to True when registration succeeds.
@@ -354,3 +358,8 @@ def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, 
             message=offer_message,)
 
     return JsonResponse({'success': True, 'id': offer.id})
+
+
+@login_required
+def profile(request):
+    return JsonResponse({'success':True})
