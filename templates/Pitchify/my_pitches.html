@@ -5,43 +5,18 @@
 {% block title %}My Pitches{% endblock %}
 
 {% block styles %}
-    <link href="{% static 'css/my_pitches.css' %} " rel="stylesheet">
+
 {% endblock %}
 
 {% block body_block %}
     <div class="indexInfo">
         <div class="container">
-            <table class="table" id="myPitches">
-                <thead>
-                <tr>
-                    <th class="text-center">Pitch</th>
-                    <th class="text-center">Sold Stocks</th>
-                    <th class="text-center">Total Stocks</th>
-                </tr>
-                </thead>
-                <tbody class="table-body">
-                {% for pitch in context.my_pitches %}
-                    <tr class="tr-clickable" data-progress="{{ pitch.percentage_sold }}">
-                        <td class="text-center">
-                            <div class="progress"></div>
-                            <span class="onTop">{{ pitch }}</span>
-                        </td>
-                        <td class="text-center">
-                            <span class="onTop">{{ pitch.sold_stocks }}</span>
-                        </td>
-                        <td class="text-center">
-                            <span class="onTop">{{ pitch.total_stocks }}</span>
-                        </td>
-                        <td class="hidden"><a href="{% url 'pitchify:pitch' pitch.id %}">EDIT</a></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+            {% block company_pitches_block %}
+            {% endblock %}
         </div>
     </div>
 {% endblock %}
 
 {% block scripts %}
-    <script src="{% static 'js/my_pitches.js' %}"></script>
-    <script src="{% static 'js/investor_pitches.js' %}"></script>
+
 {% endblock %}

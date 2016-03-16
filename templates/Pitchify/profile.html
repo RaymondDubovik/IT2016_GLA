@@ -4,7 +4,7 @@
 {% load app_filters %}
 
 {% block title %}
-    {% if request.user.id == context.user_id %}
+    {% if request.user.id == user_id %}
         My Profile
     {% else %}
         user.username
@@ -35,15 +35,15 @@
                 <!-- edit form column -->
                 <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
                     <div class="alert alert-info">
-                        {% if context.type == 'C' %}
-                            <strong>Description: </strong>{{ context.description }}
-                        {% elif context.type == 'I' %}
-                            <strong>Website: </strong>{{ context.website }}
+                        {% if type == 'C' %}
+                            <strong>Description: </strong>{{ description }}
+                        {% elif type == 'I' %}
+                            <strong>Website: </strong>{{ website }}
                         {% endif %}
                     </div>
-                    {% if context.type == 'C' %}
+                    {% if type == 'C' %}
                         <h3>Company info</h3>
-                    {% elif context.type == 'I' %}
+                    {% elif type == 'I' %}
                         <h3>Investor info</h3>
                     {% endif %}
                     <form class="form-horizontal" role="form">
