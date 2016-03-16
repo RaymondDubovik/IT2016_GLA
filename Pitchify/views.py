@@ -291,8 +291,11 @@ def investor_offers(request):
 @login_required
 def pitch(request, pitch_id):
     try:
+        print pitch_id
         pitch = Pitch.objects.get(id=pitch_id)
+        print "here"
     except: # pitch does not exist
+        print "here2"
         return render(request, 'pitchify/error.html',
                       {'error_message': "Could not find a pitch!",
                        'return_message': 'Browse pitches',

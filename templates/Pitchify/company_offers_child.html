@@ -44,20 +44,19 @@
 
                     <p>{{ offer.message }}</p>
 
-                    {% if offer.status == offer.PENDING %}
+                    {% if offer.status != offer.PENDING %}
                         <p>Answer: {{ offer.answer }}</p>
-
+                    {% else %}
                         <div>
-                            <textarea>
-
-                            </textarea>
+                            <label for="textarea_{{ offer.id }}">Answer:</label>
+                            <textarea id="textarea_{{ offer.id }}" class="form-control"></textarea>
                         </div>
-                        <div>
-                            <button onClick="acceptOffer({{ offer.id }}, true)">
+                        <div class="div-margined">
+                            <button class="btn btn-success" onClick="acceptOffer({{ offer.id }}, true)">
                                 Accept offer
                             </button>
-                            <button onClick="acceptOffer({{ offer.id }}, false)">
-                                Accept offer
+                            <button class="btn btn-danger float-right" onClick="acceptOffer({{ offer.id }}, false)">
+                                Decline offer
                             </button>
                         </div>
                     {% endif %}
@@ -68,7 +67,8 @@
 
     <script>
         function acceptOffer(offerId, accept) {
-            // TODO: implament
+            alert(offerId + " " + accept);
+            // TODO: implement
         }
     </script>
 {% endblock %}
