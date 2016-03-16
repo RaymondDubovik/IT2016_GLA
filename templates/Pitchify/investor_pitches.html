@@ -34,7 +34,7 @@
                         <td class="text-center">{{ pitch.description }}</td>
                         <td class="text-center">{{ pitch.stocks_left }}</td>
                         <td class="text-center">{{ pitch.invested }}</td>
-                        <td class="text-center hidden"><a href="{% url 'pitchify:investor_pitch' pitch.id %}">EDIT</a></td>
+                        <td class="text-center hidden"><a href="{% url 'pitchify:pitch' pitch.id %}">EDIT</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>

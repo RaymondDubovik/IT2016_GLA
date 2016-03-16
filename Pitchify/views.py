@@ -289,7 +289,7 @@ def investor_offers(request):
 
 
 @login_required
-def investor_pitch(request, pitch_id):
+def pitch(request, pitch_id):
     try:
         pitch = Pitch.objects.get(id=pitch_id)
     except: # pitch does not exist
@@ -304,18 +304,26 @@ def investor_pitch(request, pitch_id):
     context['top_pitches'] = Pitch.objects.order_by("-sold_stocks")[:10]  # retrieve only top 10 pitches
 
     user = request.user
-    investor = Investor.objects.get(user=user)
-    offers = Offer.objects.filter(investor=investor, pitch=pitch).order_by('status')
-    context['offers'] = offers
+    user_type = get_user_type(request)
+    if user_type == 'I':
+        investor = Investor.objects.get(user=user)
+        offers = Offer.objects.filter(investor=investor, pitch=pitch).order_by('status')
+        context['offers'] = offers
+    elif user_type == 'C':
 
-    return render(request, 'pitchify/investor_offers_child.html', context)
+        # verify, that the company owns the pitch
+        company = Company.objects.get(user=user)
+
+        offers = Offer.objects.filter(pitch=pitch).order_by('status')
+        context['offers'] = offers
+
+    context['type'] = user_type
+
+    return render(request, 'pitchify/company_offers_child.html', context)
 
 
 @login_required
 def investor_remove_offer(request, offer_id):
-    if get_user_type(request) != 'I':
-        return JsonResponse({'success': False, 'message': "You can not remove this offer"})
-
     try:
         offer = Offer.objects.get(id=offer_id)
     except:

@@ -22,7 +22,6 @@
     <div class="indexInfo">
         <div class="container" id="main-container">
             <div class="display-table">
-
                 <div id="pitch-main">
                     <div class="display-cell">
                         <div class="display-cell">
@@ -49,41 +48,43 @@
                                 <span class="text" id="description">{{ pitch.description }}</span>
                             </div>
 
-                            <div class="div-margined">
-                                <div id="your_offers_success" class="alert alert-success alert-dismissable" style="display: none;">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    Offer successfully submitted
-                                </div>
-                                <div id="your_offers">
-                                <h3 class="text">Make an offer</h3>
-                                <hr/>
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2 text" for="stocks_offer">Stocks:</label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control" id="stocks_offer" type="number" min="1" max="{{ pitch.stocks_left }}">
+                            {% block bottom %}
+                                <div class="div-margined">
+                                    <div id="your_offers_success" class="alert alert-success alert-dismissable" style="display: none;">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        Offer successfully submitted
+                                    </div>
+                                    <div id="your_offers">
+                                    <h3 class="text">Make an offer</h3>
+                                    <hr/>
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2 text" for="stocks_offer">Stocks:</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="stocks_offer" type="number" min="1" max="{{ pitch.stocks_left }}">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2 text" for="stocks_price">Price:</label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control" id="stocks_price" type="number" min="1" max="{{ pitch.price_per_stock }}" placeholder="{{ pitch.price_per_stock }}">
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2 text" for="stocks_price">Price:</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" id="stocks_price" type="number" min="1" max="{{ pitch.price_per_stock }}" placeholder="{{ pitch.price_per_stock }}">
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                            <label class="control-label col-sm-2 text" for="stocks_message">Message:</label>
-                                            <div class="col-sm-10">
-                                                <textarea id="stocks_message" class="form-control" placeholder="Your message"></textarea>
+                                            <div class="form-group">
+                                                <label class="control-label col-sm-2 text" for="stocks_message">Message:</label>
+                                                <div class="col-sm-10">
+                                                    <textarea id="stocks_message" class="form-control" placeholder="Your message"></textarea>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="form-group">
-                                            <input class="btn btn-info" type="submit" value="Offer!" id="offerSubmit" />
+                                            <div class="form-group">
+                                                <input class="btn btn-info" type="submit" value="Offer!" id="offerSubmit" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            {% endblock %}
 
                             <div class="div-margined">
                                 {% if offers %}
@@ -100,20 +101,22 @@
                     </div>
                 </div>
 
-                <div id="top-pitches">
-                    <div><h3 class="text">Top pitches</h3></div>
-                    {% for pitch in top_pitches %}
-                        <div class="div-margined display-table">
-                            <div class="display-cell">
-                                <img class="pitch-image" src="http://img.youtube.com/vi/{{ pitch.youtube_video_id }}/0.jpg" />
+                {% block top_pitches %}
+                    <div id="top-pitches">
+                        <div><h3 class="text">Top pitches</h3></div>
+                        {% for pitch in top_pitches %}
+                            <div class="div-margined display-table">
+                                <div class="display-cell">
+                                    <img class="pitch-image" src="http://img.youtube.com/vi/{{ pitch.youtube_video_id }}/0.jpg" />
+                                </div>
+                                <div class="text display-cell vertical-top top-pitch">
+                                    <div>{{ pitch.title }}</div>
+                                    <div>Invested {{ pitch.invested }}£</div>
+                                </div>
                             </div>
-                            <div class="text display-cell vertical-top top-pitch">
-                                <div>{{ pitch.title }}</div>
-                                <div>Invested {{ pitch.invested }}£</div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                        {% endfor %}
+                    </div>
+                {% endblock %}
             </div>
         </div>
     </div>
