@@ -408,3 +408,24 @@ def profile(request, user_id):
         context['website'] = investor.website
 
     return render(request, 'pitchify/profile.html', {'context': context})
+
+
+@login_required
+def company_accept_offer(request, offer_id, accept, offer_answer):
+    try:
+        offer = Offer.objects.get(id=offer_id)
+    except:
+        return JsonResponse({'success': False})
+
+    user = request.user
+    company = Company.objects.get(user=user)
+    if company != offer.pitch.company:  # verifies, that the company owns the offer
+        return JsonResponse({'success': False})
+
+    '''
+    offer.status = Offer.ACCEPTED if accept == "true" else Offer.DECLINED
+    offer.answer = offer_answer
+    offer.save()
+    '''
+
+    return JsonResponse({'success': True})

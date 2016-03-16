@@ -15,6 +15,7 @@
     {{ block.super }}
     <script src="{% static 'js/bootstrap-dialog.js' %} "></script>
     <script src="{% static 'js/investor_offers_child.js' %} "></script>
+    <script src="{% static 'js/company_offers_child.js' %} "></script>
 {% endblock %}
 
 
@@ -47,7 +48,7 @@
                     {% if offer.status != offer.PENDING %}
                         <p>Answer: {{ offer.answer }}</p>
                     {% else %}
-                        <div>
+                        <div id="answer_{{ offer.id }}">
                             <label for="textarea_{{ offer.id }}">Answer:</label>
                             <textarea id="textarea_{{ offer.id }}" class="form-control"></textarea>
                         </div>
@@ -64,11 +65,4 @@
             </div>
         {% endfor %}
     {% endif %}
-
-    <script>
-        function acceptOffer(offerId, accept) {
-            alert(offerId + " " + accept);
-            // TODO: implement
-        }
-    </script>
 {% endblock %}

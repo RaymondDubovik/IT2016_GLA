@@ -13,13 +13,12 @@ urlpatterns = patterns(
     # companies
     url(r'^create_pitch/$', views.create_pitch, name='create_pitch'),
     url(r'^my_pitches/$', views.my_pitches, name='my_pitches'),
-
+    url(r'^company/accept_offer/(?P<offer_id>[0-9]+)/(?P<accept>[true|false]+)/(?P<offer_answer>.+)/$',
+        views.company_accept_offer, name='company_accept_offer'),
 
     # investors
     url(r'^investor/my_offers/$', views.investor_offers, name='investor_offers'),
-
     url(r'^investor/pitches/$', views.investor_pitches, name='investor_pitches'),
-    # url(r'^investor/pitches/$', views.investor_pitches, name='investor_pitches'),
 
     url(r'^investor/remove_offer/(?P<offer_id>[0-9]+)/$', views.investor_remove_offer, name='investor_remove_offer'),
     url(r'^investor/add_offer/(?P<pitch_id>[0-9]+)/(?P<offer_stock_count>[0-9]+)/(?P<offer_stock_price>[0-9]+)/(?P<offer_message>.+)/$',
