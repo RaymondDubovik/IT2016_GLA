@@ -260,7 +260,7 @@ def my_pitches(request):
     return render(request, 'pitchify/my_pitches.html', {'context': context})
 
 
-# TODO: check for the user
+@login_required
 def investor_pitches(request):
     pitches = Pitch.objects.order_by('-created')
 
@@ -274,6 +274,7 @@ def investor_pitches(request):
     return render(request, 'pitchify/investor_pitches.html', context)
 
 
+@login_required
 def investor_offers(request):
     # TODO: replace with meaningful user!!!
     user = User.objects.get(id=24)
@@ -283,6 +284,7 @@ def investor_offers(request):
     return render(request, 'pitchify/investor_offers_child.html', {'offers': offers, 'ext_template': 'pitchify/investor_offers.html', 'hide': False})
 
 
+@login_required
 def investor_pitch(request, pitch_id):
     try:
         pitch = Pitch.objects.get(id=pitch_id)
@@ -292,7 +294,8 @@ def investor_pitch(request, pitch_id):
                        'return_message': 'Browse pitches',
                        'return_url': 'pitchify:investor_pitches',})
 
-    context = {'pitch': pitch, 'pitch_id': pitch_id, 'Offer': Offer, 'ext_template': 'pitchify/investor_pitch.html', 'hide': True}
+    context = {'pitch': pitch, 'pitch_id': pitch_id, 'Offer': Offer, 'ext_template': 'pitchify/investor_pitch.html',
+               'hide': True}
     context['percentage_claimed'] = pitch.sold_stocks * 100 / pitch.total_stocks
     context['top_pitches'] = Pitch.objects.order_by("-sold_stocks")[:10]
 
@@ -305,6 +308,7 @@ def investor_pitch(request, pitch_id):
     return render(request, 'pitchify/investor_offers_child.html', context)
 
 
+@login_required
 def investor_remove_offer(request, offer_id):
     try:
         offer = Offer.objects.get(id=offer_id)
@@ -322,6 +326,7 @@ def investor_remove_offer(request, offer_id):
     return JsonResponse({'success': True})
 
 
+@login_required
 def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, offer_message):
     try:
         pitch = Pitch.objects.get(id=pitch_id)

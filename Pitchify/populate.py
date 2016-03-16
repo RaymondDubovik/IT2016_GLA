@@ -2,11 +2,13 @@ from datetime import datetime
 from pprint import pprint
 from random import randint
 
+from django.contrib.auth.views import password_change
+
 from pitchify.models import Company, Investor, Pitch, Offer
 from django.contrib.auth.models import User
 
 
-class Population():
+class Population:
     def __init__(self):
         pass
 
@@ -87,6 +89,7 @@ class Population():
 
     def add_company(self, username, description):
         user, created = User.objects.get_or_create(username=username)
+        user.set_password(username)
         user.username = username
         user.save()
 
