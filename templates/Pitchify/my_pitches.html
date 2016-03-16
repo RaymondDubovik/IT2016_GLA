@@ -9,30 +9,32 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="container">
-        <table class="table" id="myPitches">
-            <thead>
-            <tr>
-                <th class="text-center">Pitch</th>
-                <th class="text-center">Sold Stocks</th>
-                <th class="text-center">Total Stocks</th>
-            </tr>
-            </thead>
-            <tbody class="table-body">
-            {% for pitch in context.my_pitches %}
-                <tr data-progress="{{ pitch.percentage_sold }}">
-                    <td class="text-center">
-                        <div class="progress"></div>
-                        {{ pitch }}
-                    </td>
-                    <td class="text-center">
-                        {{ pitch.sold_stocks }}
-                    </td>
-                    <td class="text-center">{{ pitch.total_stocks }}</td>
+    <div class="indexInfo">
+        <div class="container">
+            <table class="table" id="myPitches">
+                <thead>
+                <tr>
+                    <th class="text-center">Pitch</th>
+                    <th class="text-center">Sold Stocks</th>
+                    <th class="text-center">Total Stocks</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="table-body">
+                {% for pitch in context.my_pitches %}
+                    <tr data-progress="{{ pitch.percentage_sold }}">
+                        <td class="text-center">
+                            <div class="progress"></div>
+                            {{ pitch }}
+                        </td>
+                        <td class="text-center">
+                            {{ pitch.sold_stocks }}
+                        </td>
+                        <td class="text-center">{{ pitch.total_stocks }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}
 

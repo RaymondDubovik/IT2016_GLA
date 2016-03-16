@@ -1,0 +1,110 @@
+{% extends 'pitchify/base.html' %}
+
+{% load staticfiles %}
+{% load app_filters %}
+
+{% block title %}
+    {% if request.user.id == context.user_id %}
+        My Profile
+    {% else %}
+        user.username
+    {% endif %}
+{% endblock %}
+{% block styles %}
+    <link href="{% static 'css/profile.css' %} " rel="stylesheet">
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}
+
+
+{% block body_block %}
+    <div class="indexInfo">
+        <div class="container">
+            <h2 class="page-header"></h2>
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="text-center">
+                        <img src="http://www.brownsofweston.co.uk/image/cache/data/category/Fine-Bedding-Company-200x200.gif"
+                             class="avatar img-circle img-thumbnail" alt="avatar">
+                    </div>
+                </div>
+                <!-- edit form column -->
+                <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+                    <div class="alert alert-info">
+                        {% if context.type == 'C' %}
+                            <strong>Description: </strong>{{ context.description }}
+                        {% elif context.type == 'I' %}
+                            <strong>Website: </strong>{{ context.website }}
+                        {% endif %}
+                    </div>
+                    {% if context.type == 'C' %}
+                        <h3>Company info</h3>
+                    {% elif context.type == 'I' %}
+                        <h3>Investor info</h3>
+                    {% endif %}
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">First name:</label>
+                            <div class="col-lg-8">
+                                {#                                <input class="form-control" value="{{ user.first_name }}" type="text">#}
+                                <p class="control-label">{{ user.first_name }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Last name:</label>
+                            <div class="col-lg-8">
+                                {#                                <input class="form-control" value="{{ user.last_name }}" type="text">#}
+                                <p class="control-label">{{ user.last_name }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Email:</label>
+                            <div class="col-lg-8">
+                                {#                                <input class="form-control" value="{{ user.email }}" type="text">#}
+                                <p class="control-label">{{ user.email }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Username:</label>
+                            <div class="col-md-8">
+                                {#                                <input class="form-control" value="{{ user.username }}" type="text">#}
+                                <p class="control-label">{{ user.username }}</p>
+                            </div>
+                        </div>
+                        {#                        <div class="form-group">#}
+                        {#                            <label class="col-md-3 control-label">Old Password:</label>#}
+                        {#                            <div class="col-md-8">#}
+                        {#                                <input class="form-control" type="password" name="password">#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                        {#                        <div class="form-group">#}
+                        {#                            <label class="col-md-3 control-label">Password:</label>#}
+                        {#                            <div class="col-md-8">#}
+                        {#                                <input class="form-control" type="password">#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                        {#                        <div class="form-group">#}
+                        {#                            <label class="col-md-3 control-label">Confirm password:</label>#}
+                        {#                            <div class="col-md-8">#}
+                        {#                                <input class="form-control" type="password">#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                        {#                        <div class="form-group">#}
+                        {#                            <label class="col-md-3 control-label"></label>#}
+                        {#                            <div class="col-md-8">#}
+                        {#                                <input class="btn btn-primary" value="Save Changes" type="button">#}
+                        {#                                <span></span>#}
+                        {#                                <input class="btn btn-default" value="Cancel" type="reset">#}
+                        {#                            </div>#}
+                        {#                        </div>#}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

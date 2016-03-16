@@ -364,5 +364,18 @@ def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, 
 
 
 @login_required
-def profile(request):
-    return JsonResponse({'success': True})
+def profile(request, user_id):
+    context = {}
+
+    user_type = get_user_type(request)
+
+    context['type'] = user_type
+
+    if user_type == 'C':
+        company = Company.objects.get(user_id=user_id)
+        context['description'] = company.description
+    elif user_type == 'I':
+        investor = Investor.objects.get(user_id=user_id)
+        context['website'] = investor.website
+
+    return render(request, 'pitchify/profile.html', {'context': context})

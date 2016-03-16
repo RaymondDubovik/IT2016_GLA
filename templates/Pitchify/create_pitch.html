@@ -9,25 +9,27 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="container">
-        <div class="col-lg-3"></div>
-        <div class="row col-lg-6">
-            <form class="form form-signin" method="post" action="{% url 'pitchify:create_pitch'%}">
-                {% csrf_token %}
-                {#    {{ pitch_form }}#}
-                {% for field in pitch_form %}
-                    {% if  field.field.widget.input_type == null %}
-                        {{ field }}
-                    {% else %}
-                        <input class="form-control input-lg" name="{{ field.name }}"
-                               placeholder="{{ field.label }}"
-                               type="{{ field.field.widget.input_type }}"/>
-                    {% endif %}
-                {% endfor %}
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Pitch it!</button>
-            </form>
+    <div class="indexInfo">
+        <div class="container">
+            <div class="col-lg-3"></div>
+            <div class="row col-lg-6">
+                <form class="form form-signin" method="post" action="{% url 'pitchify:create_pitch' %}">
+                    {% csrf_token %}
+                    {#    {{ pitch_form }}#}
+                    {% for field in pitch_form %}
+                        {% if  field.field.widget.input_type == null %}
+                            {{ field }}
+                        {% else %}
+                            <input class="form-control input-lg" name="{{ field.name }}"
+                                   placeholder="{{ field.label }}"
+                                   type="{{ field.field.widget.input_type }}"/>
+                        {% endif %}
+                    {% endfor %}
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Pitch it!</button>
+                </form>
+            </div>
+            <div class="col-lg-3"></div>
         </div>
-        <div class="col-lg-3"></div>
     </div>
 {% endblock %}
 

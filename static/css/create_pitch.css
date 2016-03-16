@@ -2,3 +2,11 @@
     max-width: 100%;
     width: 100%;
 }
+
+.indexInfo {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    min-height: 900px;
+    background-size: cover;
+}

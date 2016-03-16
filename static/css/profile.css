@@ -1,0 +1,19 @@
+.indexInfo {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: center;
+    min-height: 900px;
+    background-size: cover;
+}
+
+h2, h3, span, label, p {
+    color: #eee;
+}
+
+tr {
+    color: #eee;
+}
+
+p {
+    text-align: center !important;
+}
