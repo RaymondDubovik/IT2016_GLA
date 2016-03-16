@@ -235,6 +235,12 @@ def user_logout(request):
 
 @login_required
 def create_pitch(request):
+    # getting user type
+    user_type = get_user_type(request)
+
+    context = {}
+    context['type'] = user_type
+
     if request.method == 'POST':
         pitch_form = PitchForm(data=request.POST)
         # print pitch_form
@@ -246,15 +252,11 @@ def create_pitch(request):
             pitch.save()
         else:
             print pitch_form.errors
-
+            context['pitch_form'] = pitch_form
+            return render(request, 'pitchify/create_pitch.html', context)
         return HttpResponseRedirect('/pitchify/my_pitches')
 
     pitch_form = PitchForm()
-    # getting user type
-    user_type = get_user_type(request)
-
-    context = {}
-    context['type'] = user_type
     context['pitch_form'] = pitch_form
     return render(request, 'pitchify/create_pitch.html', context)
 

@@ -17,17 +17,35 @@
                     {% csrf_token %}
                     {#    {{ pitch_form }}#}
                     {% for field in pitch_form %}
+                        {% for errorField, errors in pitch_form.errors.items %}
+                            {% for error in errors %}
+                                {% if errorField == field.name %}
+                                    <div class="alert alert-danger">
+                                        {{ error }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
                         {% if  field.field.widget.input_type == null %}
                             {{ field }}
                         {% else %}
                             <input class="form-control input-lg" name="{{ field.name }}"
                                    placeholder="{{ field.label }}"
-                                   type="{{ field.field.widget.input_type }}"/>
+                                   type="{{ field.field.widget.input_type }}"
+                                   {% if field.value == 'None' %}
+                                   value="{{ field.value }}"
+                                   {% endif %}
+                            />
                         {% endif %}
                     {% endfor %}
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Pitch it!</button>
                 </form>
             </div>
+            {% for field, errors in pitch_form.errors.items %}
+                {% for error in errors %}
+                    {{ field }}
+                {% endfor %}
+            {% endfor %}
             <div class="col-lg-3"></div>
         </div>
     </div>

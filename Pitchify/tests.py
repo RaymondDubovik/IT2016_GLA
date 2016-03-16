@@ -1,3 +1,5 @@
 from django.test import TestCase
+from pitchify.models import *
 
-# Create your tests here.
+class CompanyMethodTest(TestCase):
+    def test_ensure_pitch_
