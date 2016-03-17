@@ -74,6 +74,20 @@ function acceptOffer(id, accept) {
             );
 
             $('#buttons_' + id).empty();
+
+            console.log(json);
+
+            var soldStocks = json['soldStocks'];
+            var percentage = Math.round(soldStocks * 100.0 / json['totalStocks']);
+
+            $('#stocks-sold').html(soldStocks);
+            $progressbar = $('#progressbar-claimed');
+
+            console.log(percentage);
+
+            $progressbar.width(percentage * 4);
+            $progressbar.html(percentage);
+            $('#invested').html(json['invested']);
         } else {
             BootstrapDialog.show({
                 message: json['message'],

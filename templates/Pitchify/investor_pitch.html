@@ -35,13 +35,13 @@
                                 </div>
 
                                 <div class="pull-right progressbar-container display-table">
-                                    <div class="text" id="stocks">{{ pitch.sold_stocks }} / {{ pitch.total_stocks}} stocks bought. Price per stock: {{ pitch.price_per_stock }}£</div>
+                                    <div class="text" id="stocks"><span id="stocks-sold">{{ pitch.sold_stocks }}</span> / {{ pitch.total_stocks}} stocks bought. Price per stock: {{ pitch.price_per_stock }}£</div>
                                     <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width:{{ percentage_claimed }}%">
+                                        <div id="progressbar-claimed" class="progress-bar" role="progressbar" style="width:{{ percentage_claimed }}%">
                                             {{ percentage_claimed }}%
                                         </div>
                                     </div>
-                                    <div class="text">Invested: {{ pitch.invested }}£</div>
+                                    <div class="text">Invested: <span id="invested">{{ pitch.invested }}</span>£</div>
                                 </div>
                             </div>
 
