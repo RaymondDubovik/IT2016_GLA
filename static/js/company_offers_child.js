@@ -86,7 +86,7 @@ function acceptOffer(id, accept) {
             console.log(percentage);
 
             $progressbar.width(percentage * 4);
-            $progressbar.html(percentage);
+            $progressbar.html(percentage + '%');
             $('#invested').html(json['invested']);
         } else {
             BootstrapDialog.show({

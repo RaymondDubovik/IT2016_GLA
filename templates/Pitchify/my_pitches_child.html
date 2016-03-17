@@ -20,6 +20,10 @@
         <thead>
         <tr>
             <th class="text-center">Pitch</th>
+            {% if show_companies %}
+                <th class="text-center">Company Name</th>
+                <th class="text-center">Description</th>
+            {% endif %}
             <th class="text-center">Sold Stocks</th>
             <th class="text-center">Total Stocks</th>
         </tr>
@@ -31,6 +35,14 @@
                     <div class="progress"></div>
                     <span class="onTop">{{ pitch }}</span>
                 </td>
+                {% if show_companies %}
+                    <td class="text-center">
+                        <span class="onTop">{{ pitch.company.user.username }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="onTop">{{ pitch.description }}</span>
+                    </td>
+                {% endif %}
                 <td class="text-center">
                     <span class="onTop">{{ pitch.sold_stocks }}</span>
                 </td>

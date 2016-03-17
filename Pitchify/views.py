@@ -293,9 +293,10 @@ def investor_pitches(request):
         if len(pitch.description) > MAX_DESCRIPTION_LENGTH:
             pitch.description = pitch.description[:MAX_DESCRIPTION_LENGTH] + '...'
 
-    context['pitches'] = pitches
-
-    return render(request, 'pitchify/investor_pitches.html', context)
+    context['my_pitches'] = pitches
+    context['show_companies'] = True
+    context['ext_template'] = 'pitchify/investor_pitches.html'
+    return render(request, 'pitchify/my_pitches_child.html', context)
 
 
 @login_required
