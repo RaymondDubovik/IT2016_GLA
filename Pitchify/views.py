@@ -195,6 +195,9 @@ def user_login(request):
                 # If the account is valid and active, we can log the user in.
                 # We'll send the user back to the homepage.
                 login(request, user)
+                type = get_user_type(request)
+                if type == 'I':
+                    return HttpResponseRedirect('/pitchify/investor/pitches/')
                 return HttpResponseRedirect('/pitchify/')
             else:
                 # An inactive account was used - no logging in!
