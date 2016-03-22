@@ -30,35 +30,95 @@ class Population:
 
     def add_offers(self, investors, pitches):
         offers = []
-        for pitch in pitches:
-            for investor in investors:
-                offers.append(self.add_offer(
-                    pitch,
-                    investor,
-                    status=Offer.PENDING,
-                    stock_count=10,
-                    price=10,
-                    message="Looking to buy stocks for the specified price", ))
+        pitch = pitches[0]
+        for investor in investors:
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.PENDING,
+                stock_count=25,
+                price=500,
+                message="Looking to buy stocks for the specified price", ))
 
-                offers.append(self.add_offer(
-                    pitch,
-                    investor,
-                    status=Offer.ACCEPTED,
-                    stock_count=10,
-                    price=10,
-                    message="Looking to buy stocks for the specified price",
-                    answer="Deal, we want this!",
-                    seen=True, ))
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.ACCEPTED,
+                stock_count=25,
+                price=500,
+                message="Looking to buy stocks for the specified price",
+                answer="Deal, we want this!",
+                seen=True, ))
 
-                offers.append(self.add_offer(
-                    pitch,
-                    investor,
-                    status=Offer.DECLINED,
-                    stock_count=10,
-                    price=5,
-                    message="Looking to buy stocks for the specified price",
-                    answer="Sorry, no lowballing!",
-                    seen=True, ))
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.DECLINED,
+                stock_count=10,
+                price=5,
+                message="Looking to buy stocks for the specified price",
+                answer="Sorry, no lowballing!",
+                seen=True, ))
+
+        pitch = pitches[1]
+        for investor in investors:
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.PENDING,
+                stock_count=35,
+                price=100,
+                message="Looking to buy stocks for the specified price", ))
+
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.ACCEPTED,
+                stock_count=35,
+                price=100,
+                message="Looking to buy stocks for the specified price",
+                answer="Deal, we want this!",
+                seen=True, ))
+
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.DECLINED,
+                stock_count=10,
+                price=5,
+                message="Looking to buy stocks for the specified price",
+                answer="Sorry, no lowballing!",
+                seen=True, ))
+
+        pitch = pitches[2]
+        for investor in investors:
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.PENDING,
+                stock_count=50,
+                price=300,
+                message="Looking to buy stocks for the specified price", ))
+
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.ACCEPTED,
+                stock_count=50,
+                price=300,
+                message="Looking to buy stocks for the specified price",
+                answer="Deal, we want this!",
+                seen=True, ))
+
+            offers.append(self.add_offer(
+                pitch,
+                investor,
+                status=Offer.DECLINED,
+                stock_count=10,
+                price=5,
+                message="Looking to buy stocks for the specified price",
+                answer="Sorry, no lowballing!",
+                seen=True, ))
 
         return offers
 
@@ -74,7 +134,7 @@ class Population:
         pitches = []
 
         total_stocks = 400
-        sold_stocks = 50  # TODO: verify
+        sold_stocks = 50
         pitches.append(self.add_pitch(
             companies[0],
             title="ISEE-3 Reboot Project",
@@ -86,7 +146,7 @@ class Population:
         ))
 
         total_stocks = 500
-        sold_stocks = 70  # TODO: verify
+        sold_stocks = 70
         pitches.append(self.add_pitch(
             companies[1],
             title="Wavespring running shoes",
@@ -98,7 +158,7 @@ class Population:
         ))
 
         total_stocks = 1000
-        sold_stocks = 100  # TODO: verify
+        sold_stocks = 100
         pitches.append(self.add_pitch(
             companies[1],
             title="Extra Credits",
