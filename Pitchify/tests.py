@@ -8,7 +8,7 @@ from pitchify import views
 from pitchify.models import *
 
 
-def add_pitch(pitch_title, pitch_description):
+def add_pitch(pitch_title, pitch_description, youtubevideo):
     username = description = 'test'
     user = User()
     user.username = username
@@ -26,7 +26,7 @@ def add_pitch(pitch_title, pitch_description):
     pitch.description = pitch_description
     pitch.total_stocks = 100
     pitch.title = pitch_title
-    pitch.youtube_video_id = 'https://www.youtube.com/watch?v=9VoNgLnjzVg'
+    pitch.youtube_video_id = youtubevideo
     pitch.save()
     return pitch
 
@@ -60,3 +60,16 @@ class IndexViewTests(TestCase):
         response = views.index(request)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Pitchify helps you connect and share with the people in your life.")
+
+class PitchTests(TestCase):
+    def test_youtube_index(self):
+        add_pitch('title 1', 'description 1', 'https://www.youtube.com/watch?v=9VoNgLnjzVg')
+        pitch = Pitch.objects.get(title='title 1')
+        self.assertEqual(pitch.youtube_video_id, '9VoNgLnjzVg')
+    def test_youtube_edit(self):
+        add_pitch('title 1', 'description 1', 'https://www.youtube.com/watch?v=9VoNgLnjzVg')
+        pitch = Pitch.objects.get(title='title 1')
+        pitch.youtube_video_id = 'https://www.youtube.com/watch?v=ZX8ZuMmaHIY'
+        pitch.save()
+        self.assertEqual(pitch.youtube_video_id, 'ZX8ZuMmaHIY')
+

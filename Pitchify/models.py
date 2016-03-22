@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaulttags import register
 from django.utils.timezone import now
+import re
 
 
 class Company(models.Model):
@@ -40,6 +41,14 @@ class Pitch(models.Model):  # foreign company
 
     def __unicode__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        # Uncomment if you don't want the slug to change every time the name changes
+        if len(self.youtube_video_id) > 11:
+            result = re.match('^[^v]+v=(.{11}).*', self.youtube_video_id)
+            youtube = result.group(1)
+            self.youtube_video_id = youtube
+        super(Pitch, self).save(*args, **kwargs)
 
     @property
     def percentage_sold(self):

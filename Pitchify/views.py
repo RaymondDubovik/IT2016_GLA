@@ -467,11 +467,6 @@ def edit_pitch(request, pitch_id, youtube, description):
     if company != pitch.company:  # verifies, that the company owns the pitch
         return JsonResponse({'success': False, 'message': "This is not your pitch!"})
 
-    if youtube and 'youtube' in youtube:
-        # regex for the YouTube ID: "^[^v]+v=(.{11}).*"
-        result = re.match('^[^v]+v=(.{11}).*', youtube)
-        youtube = result.group(1)
-
     pitch.youtube_video_id = youtube
     pitch.description = description
     pitch.save()
