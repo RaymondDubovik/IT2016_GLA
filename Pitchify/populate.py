@@ -63,12 +63,12 @@ class Population:
         return offers
 
     def add_companies(self):
-        return [self.add_company("companyUser1", "some company description1"),
-                self.add_company("companyUser2", "some company description2")]
+        return [self.add_company("david", "David is the world's largest freelancing, outsourcing and crowdsourcing marketplace by number of users and projects. We connect over 18,585,760 employers and freelancers globally from over 247 countries, regions and territories. Through our marketplace, employers can hire freelancers to do work in areas such as software development, writing, data entry and design right through to engineering, the sciences, sales and marketing, accounting and legal services."),
+                self.add_company("StudyPauseLtd", "Do you know what is going on in your university? Are you unsure which club to join? Having some spare time and want to do something interesting such as attending the social event of the month, networking with a CEO, or simply do some dances? Studypause is a consolidated image-display platform displaying UK university events - fast and easy-to-use, intuitive, and available on all devices. Events are chronologically ordered and can be filtered by categories. All the information you need is there - date and time, location, organising club, and event description. The application is not only an eco-friendly solution, but also improves the overall educational experience of thousands of students and helps them stay connected with each other and their institutions. Never miss out! Time to studypause!")]
 
     def add_investors(self):
-        return [self.add_investor("investorUser1"),
-                self.add_investor("investorUser2")]
+        return [self.add_investor("leifos"),
+                self.add_investor("laura")]
 
     def add_pitches(self, companies):
         pitches = []
@@ -91,6 +91,7 @@ class Population:
         user, created = User.objects.get_or_create(username=username)
         user.set_password(username)
         user.username = username
+        user.email = username + '@' + username + '.com'
         user.save()
 
         company, created = Company.objects.get_or_create(user=user)
@@ -100,16 +101,17 @@ class Population:
         company.save()
         return company
 
-    def add_investor(self, username, website_url="", picture=""):
+    def add_investor(self, username, picture=""):
         user, created = User.objects.get_or_create(username=username)
         user.set_password(username)
         user.username = username
+        user.email = username + '@' + username + '.com'
         user.save()
 
         investor, created = Investor.objects.get_or_create(user=user)
         investor.user = user
-        investor.website = website_url
-        investor.picture = picture  # TODO: no idea, how to handle images
+        investor.website = 'http://www.' + username + '.com'
+        investor.picture = picture
         investor.save()
 
         return investor
