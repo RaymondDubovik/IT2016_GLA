@@ -1,3 +1,9 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Django.settings')
+
+import django
+django.setup()
+
 from datetime import datetime
 from pprint import pprint
 from random import randint
@@ -234,3 +240,8 @@ class Population:
 
     def truncate(self):
         User.objects.all().delete()  # foreign keys clean objects in all other tables
+
+if __name__ == '__main__':
+    print "Starting Pitchify population script..."
+    population = Population()
+    population.populate(True)

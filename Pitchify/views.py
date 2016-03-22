@@ -72,16 +72,6 @@ def index(request):
                       context)
 
 
-def populate(request):
-    context = {}
-
-    # print('populate')
-    population = Population()
-    population.populate(True)
-
-    return render(request, 'pitchify/populate.html', context)
-
-
 def register(request):
     # A boolean value for telling the template whether the registration was successful.
     # Set to False initially. Code changes value to True when registration succeeds.

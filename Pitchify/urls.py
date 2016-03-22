@@ -27,7 +27,4 @@ urlpatterns = patterns(
 
     # both
     url(r'^pitch/(?P<pitch_id>[0-9]+)/$', views.pitch, name='pitch'),
-
-    # populate
-    url(r'^populate/$', views.populate, name='populate'),
 )
