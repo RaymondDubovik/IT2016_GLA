@@ -150,7 +150,7 @@ class Population:
         pitches.append(self.add_pitch(
             companies[1],
             title="Wavespring running shoes",
-            description="My name is Andy Krafsur and I am obsessed about making shoes and helping people’s feet (and lives) be more comfortable.  As the Duck Dynasty patriarch Phil Robertson states in his new bestselling book, “Always wear shoes (your feet will feel better).”  We can all use a good pair of shoes as we travel on the roads through life! What do a spring and a duck call have in common? The Robertson's built a better duck call based upon their passion for hunting, and we believe we have built a better shoe based on our passion for running. Just as Phil Robertson denied the NFL to pursue his dream, I left a successful law practice to start Spira® with my wife, Holly. Like all entrepreneurial journeys, ours has been long and challenging, with a lot of ups and downs. But we continue to believe in the dream and are so excited to have this opportunity to bring these special shoes to you. We are offering several limited edition versions of the Duck Dynasty camouflage shoe available ONLY through this crowd funding project.  These remarkably comfortable shoes are based on our popular Spira® Stinger XLT performance shoe, which contains three WaveSprings--two in the forefoot and one in the heel. The shoes are lightweight (weigh only 8.4 ounces in a women's size 7 and 9.4 ounces in a men's size 9). For runners and non-runners alike, these shoes are one of only a handful of products available in the market with the distinctive Duck Dynasty camouflage pattern. So what is so great about springs and Spira® shoes that encouraged me to leave behind the practice of law and start a shoe company? I love running and had been searching for a shoe that could help make my runs more enjoyable, comfortable and productive.  Out of this pursuit, I tried many shoes and different footwear technologies, but none of the others compared to the WaveSpring®. ",
+            description="Over the last year we've built up a web series talking about game design and the positive impact that games can have on humanity. We've used it to get people looking more deeply at videogames and thinking about what they can take away from their games and add to their lives. Yesterday Allison, our artist, found out she needed major shoulder surgery if she's going to be able to continue to do art.  Each show costs us far more than we make off of it; we've spent most of our reserves building Extra Credits and are now trying to give what we can to help Allison cover the cost of her surgery.  We need to raise somewhere between $15,000-$20,000 to help her get surgery and hire guest artists for the next few months, otherwise we can't keep doing the show. Help us fix the tiny pink bean so she can keep chasing us with a pencil...and please, please help us save Extra Credits. (If you donate, you will recieve all the rewards up through the level you donated at, so don't worry, if you donate $100 you'll recieve access to the episode, a tee-shirt, a publisher's club membership &c) ************ This has been more successful than our we could have possibly immagined.  We'd like to  take the overflow and pay it forward by creating jobs that allow other people to pursue their dreams...and, with luck and dedication, maybe make a real impact on the industry at the same time.",
             youtube_video_id='clulwZnC1RA',
             total_stocks=total_stocks,
             sold_stocks=sold_stocks,
@@ -175,6 +175,8 @@ class Population:
         user, created = User.objects.get_or_create(username=username)
         user.set_password(username)
         user.username = username
+        user.first_name = username
+        user.last_name = username
         user.email = username + '@' + username + '.com'
         user.save()
 
@@ -189,6 +191,8 @@ class Population:
         user, created = User.objects.get_or_create(username=username)
         user.set_password(username)
         user.username = username
+        user.first_name = username
+        user.last_name = username
         user.email = username + '@' + username + '.com'
         user.save()
 
@@ -208,6 +212,7 @@ class Population:
             total_stocks=total_stocks,
             sold_stocks=sold_stocks,
             price_per_stock=price_per_stock,
+            youtube_video_id=youtube_video_id,
             created=created)
         pitch.description = description
         pitch.youtube_video_id = youtube_video_id

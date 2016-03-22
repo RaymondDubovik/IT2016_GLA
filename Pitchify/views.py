@@ -411,11 +411,13 @@ def investor_add_offer(request, pitch_id, offer_stock_count, offer_stock_price, 
 def profile(request, user_id):
     context = {}
 
-    user_type = get_user_type(request)
 
-    context['type'] = user_type
+
+    if request.user.id != user_id:
+        context['requested_user'] = User.objects.get(id=user_id)
 
     type = get_user_type(request, user_id)
+    context['type'] = type
     if type == USER_TYPE_COMPANY:
         company = Company.objects.get(user_id=user_id)
         context['description'] = company.description
