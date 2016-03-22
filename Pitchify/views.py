@@ -6,7 +6,6 @@ from django.shortcuts import render
 
 from pitchify.forms import *
 from pitchify.models import Company, Investor, Offer
-from pitchify.populate import Population
 
 USER_TYPE_COMPANY = 'C'
 USER_TYPE_INVESTOR = 'I'
