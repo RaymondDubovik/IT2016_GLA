@@ -1,0 +1,18 @@
+Application can be deployed on pythonanywhere.companies
+To do so, wsgi script needs to be modified.
+
+DJANGO_SETTINGS_MODULE needs to point to Django.settings:
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Django.settings')
+
+
+There are 2 types of users on this website:
+	- companies that present their pitches
+	- investors that make offers to companies on their pitches
+	
+	
+There are 3 users registered in the database with different types:
+	*)	username: leifos	password: leifos 	type: investor
+	*)	username: laura		password: laura		type: investor
+	*)	username: david		password: david		type: company
+
